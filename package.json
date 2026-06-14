@@ -1,0 +1,30 @@
+{
+  "name": "@cianfrani/ai-ui",
+  "version": "0.1.0",
+  "description": "AI conversation web components (ai-message, ai-tool-call, ai-conversation, …) built with Lit.",
+  "keywords": [
+    "ai",
+    "conversation",
+    "lit",
+    "transcript",
+    "web-components"
+  ],
+  "license": "MIT",
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": true,
+  "main": "./dist/ai-ui.js",
+  "module": "./dist/ai-ui.js",
+  "types": "./dist/types/bundle.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/types/bundle.d.ts",
+      "default": "./dist/ai-ui.js"
+    }
+  },
+  "peerDependencies": {
+    "lit": "^3.0.0"
+  }
+}
