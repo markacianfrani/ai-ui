@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../ai";
+import "..";
 
 const thinkingText =
   "The user is asking about TypeScript generics. I should explain covariance and contravariance with practical examples that relate to their codebase.";

@@ -4,7 +4,147 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/semantic/ai-conversation.ts",
+      "path": "src/lib/has-slot-controller.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Reactive controller that tracks whether named/default slots have content.\n\nUsage:\n  private readonly hasSlot = new HasSlotController(this, \"[default]\");\n  // then in render():\n  this.hasSlot.test(\"[default]\") // → boolean",
+          "name": "HasSlotController",
+          "members": [
+            {
+              "kind": "field",
+              "name": "host",
+              "type": {
+                "text": "ReactiveControllerHost & Element"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "slotNames",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "slotNames"
+            },
+            {
+              "kind": "method",
+              "name": "hasDefaultSlot",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hasNamedSlot",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "name",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "test",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "slotName",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Test whether a slot has content. Use `\"[default]\"` for the default slot."
+            },
+            {
+              "kind": "method",
+              "name": "hostConnected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hostDisconnected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "handleSlotChange",
+              "privacy": "private"
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HasSlotController",
+          "declaration": {
+            "name": "HasSlotController",
+            "module": "src/lib/has-slot-controller.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/lib/tool-tone.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "getToolTone",
+          "return": {
+            "type": {
+              "text": "ToolTone"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "getToolTone",
+          "declaration": {
+            "name": "getToolTone",
+            "module": "src/lib/tool-tone.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/semantic/ai-conversation.ts",
       "declarations": [
         {
           "kind": "class",
@@ -125,7 +265,7 @@
           "name": "AiConversation",
           "declaration": {
             "name": "AiConversation",
-            "module": "src/frontend/components/ai/semantic/ai-conversation.ts"
+            "module": "src/semantic/ai-conversation.ts"
           }
         },
         {
@@ -133,14 +273,14 @@
           "name": "ai-conversation",
           "declaration": {
             "name": "AiConversation",
-            "module": "src/frontend/components/ai/semantic/ai-conversation.ts"
+            "module": "src/semantic/ai-conversation.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/semantic/ai-event.ts",
+      "path": "src/semantic/ai-event.ts",
       "declarations": [
         {
           "kind": "class",
@@ -170,6 +310,18 @@
             {
               "description": "Content gap. Default: var(--ai-space-sm)",
               "name": "--ai-event-content-gap"
+            },
+            {
+              "description": "Expanded content indentation. Default: clamp(20px, 7vw, 58px)",
+              "name": "--ai-event-content-indent"
+            },
+            {
+              "description": "Divider rule color. Default: subtle muted text color",
+              "name": "--ai-event-rule-color"
+            },
+            {
+              "description": "Divider rule color when expanded. Default: stronger muted text color",
+              "name": "--ai-event-open-rule-color"
             },
             {
               "description": "Meta slot text color. Default: var(--ai-color-text-muted)",
@@ -419,7 +571,7 @@
           "name": "AiEvent",
           "declaration": {
             "name": "AiEvent",
-            "module": "src/frontend/components/ai/semantic/ai-event.ts"
+            "module": "src/semantic/ai-event.ts"
           }
         },
         {
@@ -427,14 +579,14 @@
           "name": "ai-event",
           "declaration": {
             "name": "AiEvent",
-            "module": "src/frontend/components/ai/semantic/ai-event.ts"
+            "module": "src/semantic/ai-event.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/semantic/ai-message.ts",
+      "path": "src/semantic/ai-message.ts",
       "declarations": [
         {
           "kind": "class",
@@ -644,7 +796,7 @@
           "name": "AiMessage",
           "declaration": {
             "name": "AiMessage",
-            "module": "src/frontend/components/ai/semantic/ai-message.ts"
+            "module": "src/semantic/ai-message.ts"
           }
         },
         {
@@ -652,14 +804,14 @@
           "name": "ai-message",
           "declaration": {
             "name": "AiMessage",
-            "module": "src/frontend/components/ai/semantic/ai-message.ts"
+            "module": "src/semantic/ai-message.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/semantic/ai-thinking.ts",
+      "path": "src/semantic/ai-thinking.ts",
       "declarations": [
         {
           "kind": "class",
@@ -872,7 +1024,7 @@
           "name": "AiThinking",
           "declaration": {
             "name": "AiThinking",
-            "module": "src/frontend/components/ai/semantic/ai-thinking.ts"
+            "module": "src/semantic/ai-thinking.ts"
           }
         },
         {
@@ -880,14 +1032,14 @@
           "name": "ai-thinking",
           "declaration": {
             "name": "AiThinking",
-            "module": "src/frontend/components/ai/semantic/ai-thinking.ts"
+            "module": "src/semantic/ai-thinking.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/semantic/ai-tool-call.ts",
+      "path": "src/semantic/ai-tool-call.ts",
       "declarations": [
         {
           "kind": "class",
@@ -1104,6 +1256,15 @@
               "readonly": true
             },
             {
+              "kind": "field",
+              "name": "hasVisibleHeaderContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
               "kind": "method",
               "name": "show",
               "return": {
@@ -1279,7 +1440,7 @@
           "name": "AiToolCall",
           "declaration": {
             "name": "AiToolCall",
-            "module": "src/frontend/components/ai/semantic/ai-tool-call.ts"
+            "module": "src/semantic/ai-tool-call.ts"
           }
         },
         {
@@ -1287,14 +1448,14 @@
           "name": "ai-tool-call",
           "declaration": {
             "name": "AiToolCall",
-            "module": "src/frontend/components/ai/semantic/ai-tool-call.ts"
+            "module": "src/semantic/ai-tool-call.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/semantic/ai-tool-result.ts",
+      "path": "src/semantic/ai-tool-result.ts",
       "declarations": [
         {
           "kind": "function",
@@ -1539,7 +1700,7 @@
           "name": "normalizeToolOutput",
           "declaration": {
             "name": "normalizeToolOutput",
-            "module": "src/frontend/components/ai/semantic/ai-tool-result.ts"
+            "module": "src/semantic/ai-tool-result.ts"
           }
         },
         {
@@ -1547,7 +1708,7 @@
           "name": "AiToolResult",
           "declaration": {
             "name": "AiToolResult",
-            "module": "src/frontend/components/ai/semantic/ai-tool-result.ts"
+            "module": "src/semantic/ai-tool-result.ts"
           }
         },
         {
@@ -1555,830 +1716,69 @@
           "name": "ai-tool-result",
           "declaration": {
             "name": "AiToolResult",
-            "module": "src/frontend/components/ai/semantic/ai-tool-result.ts"
+            "module": "src/semantic/ai-tool-result.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/ai-conversation.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Semantic/AiConversation\", component: \"ai-conversation\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "SimpleConversation",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-conversation> <ai-message role=\"user\" timestamp=\"2026-06-03T18:30:00.000Z\"> <ai-markdown tone=\"user\" content=\"Can you read the file at \\`src/config.ts\\`?\"></ai-markdown> <time slot=\"meta\" datetime=\"2026-06-03T18:30:00.000Z\">6:30 PM</time> </ai-message> <ai-message role=\"assistant\" timestamp=\"2026-06-03T18:30:04.000Z\"> <ai-markdown content=\"Sure, let me take a look at that file.\"></ai-markdown> <ai-tool-call id=\"read-1\" name=\"read\" headline=\"src/config.ts\" status=\"success\" open> <pre slot=\"input\">src/config.ts</pre> <ai-tool-result for=\"read-1\" name=\"read\" status=\"success\" content='{\"text\":\"export const config = { port: 3000 };\"}'></ai-tool-result> </ai-tool-call> <time slot=\"meta\" datetime=\"2026-06-03T18:30:04.000Z\">6:30 PM</time> </ai-message> </ai-conversation> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Playground",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { density: \"comfortable\", live: false, }, render: (args) => html` <ai-conversation density=${args.density ?? \"comfortable\"} ?live=${args.live ?? false} > <ai-message role=\"user\"> <ai-markdown tone=\"user\" content=\"Hello, how are you?\"></ai-markdown> </ai-message> <ai-message role=\"assistant\"> <ai-markdown content=\"I'm doing well! How can I help?\"></ai-markdown> </ai-message> </ai-conversation> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Compact",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-conversation density=\"compact\"> <ai-message role=\"user\"><ai-markdown tone=\"user\" content=\"Hello\"></ai-markdown></ai-message> <ai-message role=\"assistant\"><ai-markdown content=\"Hi there!\"></ai-markdown></ai-message> <ai-message role=\"user\"><ai-markdown tone=\"user\" content=\"Thanks\"></ai-markdown></ai-message> </ai-conversation> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Live",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-conversation live> <ai-message role=\"assistant\" status=\"running\"> <ai-thinking .content=${\"I need to inspect the latest logs before answering.\"} open></ai-thinking> <ai-tool-call id=\"bash-1\" name=\"bash\" headline=\"tail -20 server.log\" status=\"running\" open></ai-tool-call> </ai-message> </ai-conversation> `, }"
-        }
-      ],
+      "path": "src/semantic/index.ts",
+      "declarations": [],
       "exports": [
         {
           "kind": "js",
-          "name": "default",
+          "name": "*",
           "declaration": {
-            "name": "meta",
-            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+            "name": "*",
+            "module": "src/semantic/ai-conversation"
           }
         },
         {
           "kind": "js",
-          "name": "SimpleConversation",
+          "name": "*",
           "declaration": {
-            "name": "SimpleConversation",
-            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+            "name": "*",
+            "module": "src/semantic/ai-message"
           }
         },
         {
           "kind": "js",
-          "name": "Playground",
+          "name": "*",
           "declaration": {
-            "name": "Playground",
-            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+            "name": "*",
+            "module": "src/semantic/ai-tool-call"
           }
         },
         {
           "kind": "js",
-          "name": "Compact",
+          "name": "*",
           "declaration": {
-            "name": "Compact",
-            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+            "name": "*",
+            "module": "src/semantic/ai-tool-result"
           }
         },
         {
           "kind": "js",
-          "name": "Live",
+          "name": "*",
           "declaration": {
-            "name": "Live",
-            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+            "name": "*",
+            "module": "src/semantic/ai-thinking"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/semantic/ai-event"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/ai-event.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Semantic/AiEvent\", component: \"ai-event\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "Playground",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { kind: \"status\", severity: \"info\", source: \"\", open: true, }, render: (args) => html` <ai-event kind=${args.kind ?? \"custom\"} severity=${args.severity ?? \"info\"} source=${args.source ?? \"\"} ?open=${args.open ?? false} > Session restored from checkpoint. </ai-event> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "ModelChange",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-event kind=\"model-change\" severity=\"info\"> Switched to claude-sonnet-4 </ai-event> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "ErrorEvent",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-event kind=\"error\" severity=\"error\" open> Connection lost. Reconnecting... </ai-event> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Warning",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-event kind=\"note\" severity=\"warning\" open> Approaching token limit. </ai-event> `, }"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "meta",
-            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Playground",
-          "declaration": {
-            "name": "Playground",
-            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "ModelChange",
-          "declaration": {
-            "name": "ModelChange",
-            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "ErrorEvent",
-          "declaration": {
-            "name": "ErrorEvent",
-            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Warning",
-          "declaration": {
-            "name": "Warning",
-            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/ai-message.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Semantic/AiMessage\", component: \"ai-message\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "UserMessage",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { role: \"user\", timestamp: \"2026-06-03T18:30:00.000Z\", }, render: (args) => html` <ai-message role=${args.role ?? \"assistant\"} timestamp=${args.timestamp ?? \"\"}> <ai-markdown tone=\"user\" content=\"Can you inspect the project and run tests?\"></ai-markdown> <time slot=\"meta\" datetime=${args.timestamp ?? \"\"}>6:30 PM</time> </ai-message> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "AssistantMessage",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { role: \"assistant\", timestamp: \"2026-06-03T18:30:04.000Z\", }, render: (args) => html` <ai-message role=${args.role ?? \"assistant\"} timestamp=${args.timestamp ?? \"\"}> <ai-markdown content=\"I'll inspect the repository, then run the focused checks.\"></ai-markdown> <time slot=\"meta\" datetime=${args.timestamp ?? \"\"}>6:30 PM</time> </ai-message> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "ToolMessage",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { role: \"tool\", for: \"read-1\", timestamp: \"2026-06-03T18:30:06.000Z\", }, render: (args) => html` <ai-message role=${args.role ?? \"tool\"} for=${args.for ?? \"\"} timestamp=${args.timestamp ?? \"\"}> <ai-tool-result for=${args.for ?? \"\"} name=\"read\" status=\"success\" content=\"export const config = { port: 3000 };\"></ai-tool-result> <time slot=\"meta\" datetime=${args.timestamp ?? \"\"}>6:30 PM</time> </ai-message> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "RunningAssistant",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { role: \"assistant\", status: \"running\", }, render: (args) => html` <ai-message role=${args.role ?? \"assistant\"} status=${args.status ?? \"unknown\"}> <ai-tool-call id=\"bash-1\" name=\"bash\" headline=\"bun test\" status=\"running\" open> <ai-tool-result for=\"bash-1\" name=\"bash\" status=\"unknown\" content=\"Running...\"></ai-tool-result> </ai-tool-call> </ai-message> `, }"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "meta",
-            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "UserMessage",
-          "declaration": {
-            "name": "UserMessage",
-            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AssistantMessage",
-          "declaration": {
-            "name": "AssistantMessage",
-            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "ToolMessage",
-          "declaration": {
-            "name": "ToolMessage",
-            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "RunningAssistant",
-          "declaration": {
-            "name": "RunningAssistant",
-            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/ai-thinking.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Semantic/AiThinking\", component: \"ai-thinking\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "Closed",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { source: \"model\", open: false, redacted: false, }, render: (args) => frame(html` <ai-thinking source=${args.source ?? \"unknown\"} ?open=${args.open ?? false} ?redacted=${args.redacted ?? false} .content=${thinkingText} ></ai-thinking> `), }"
-        },
-        {
-          "kind": "variable",
-          "name": "Open",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { source: \"model\", open: true, redacted: false, }, render: (args) => frame(html` <ai-thinking source=${args.source ?? \"unknown\"} ?open=${args.open ?? false} ?redacted=${args.redacted ?? false} .content=${thinkingText} ></ai-thinking> `), }"
-        },
-        {
-          "kind": "variable",
-          "name": "Redacted",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { source: \"model\", redacted: true, }, render: (args) => frame(html` <ai-thinking source=${args.source ?? \"unknown\"} ?redacted=${args.redacted ?? false} ></ai-thinking> `), }"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "meta",
-            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Closed",
-          "declaration": {
-            "name": "Closed",
-            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Open",
-          "declaration": {
-            "name": "Open",
-            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Redacted",
-          "declaration": {
-            "name": "Redacted",
-            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/ai-tool-call.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Semantic/AiToolCall\", component: \"ai-tool-call\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "Variants",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-conversation> <ai-message role=\"assistant\"> <ai-tool-call id=\"read\" name=\"read\" headline=\"src/frontend/chat-view.ts\" status=\"success\" open> <ai-tool-result for=\"read\" name=\"read\" status=\"success\" content=\"Loaded 120 lines.\"></ai-tool-result> </ai-tool-call> <ai-tool-call id=\"bash\" name=\"bash\" headline=\"bun test src/\" status=\"running\" open> <pre slot=\"input\">bun test src/</pre> <ai-tool-result for=\"bash\" name=\"bash\" status=\"unknown\" channel=\"stdout\" content=\"Running tests…\"></ai-tool-result> </ai-tool-call> <ai-tool-call id=\"edit\" name=\"edit\" headline=\"ai-message.ts\" subline=\"src/frontend/components/ai/semantic/ai-message.ts\" status=\"error\"> <ai-tool-result for=\"edit\" name=\"edit\" status=\"error\" content='{\"error\":\"Patch did not apply\"}'></ai-tool-result> </ai-tool-call> </ai-message> </ai-conversation> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Playground",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ args: { id: \"playground-1\", name: \"read\", headline: \"src/config.ts\", subline: \"\", status: \"success\", open: true, }, render: (args) => html` <ai-conversation> <ai-message role=\"assistant\"> <ai-tool-call id=${args.id ?? \"\"} name=${args.name ?? \"\"} headline=${args.headline ?? \"\"} subline=${args.subline ?? \"\"} status=${args.status ?? \"unknown\"} ?open=${args.open ?? false} > <pre slot=\"input\">src/config.ts</pre> <ai-tool-result for=${args.id ?? \"\"} name=${args.name ?? \"\"} status=\"success\" content=\"export const config = { port: 3000 };\"></ai-tool-result> </ai-tool-call> </ai-message> </ai-conversation> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "CustomSummary",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-tool-call id=\"custom\" name=\"custom\" status=\"success\" open> <div slot=\"summary\">Custom summary slot</div> <ai-tool-result for=\"custom\" content=\"Custom result content\"></ai-tool-result> </ai-tool-call> `, }"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "meta",
-            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Variants",
-          "declaration": {
-            "name": "Variants",
-            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Playground",
-          "declaration": {
-            "name": "Playground",
-            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "CustomSummary",
-          "declaration": {
-            "name": "CustomSummary",
-            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "stackMeta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Visual/AiStack\", component: \"ai-stack\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "StackPlayground",
-          "type": {
-            "text": "StackStory"
-          },
-          "default": "{ args: { direction: \"column\", gap: \"md\", align: \"stretch\", justify: \"start\", wrap: false, inline: false, }, render: (args) => html` <ai-stack direction=${args.direction ?? \"column\"} gap=${args.gap ?? \"none\"} align=${args.align ?? \"stretch\"} justify=${args.justify ?? \"start\"} ?wrap=${args.wrap ?? false} ?inline=${args.inline ?? false} style=\"max-width: 300px;\" > <div style=\"background: var(--surface); padding: 8px; border-radius: 4px;\">Row 1</div> <div style=\"background: var(--surface); padding: 8px; border-radius: 4px;\">Row 2</div> <div style=\"background: var(--surface); padding: 8px; border-radius: 4px;\">Row 3</div> </ai-stack> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "StackRow",
-          "type": {
-            "text": "StackStory"
-          },
-          "default": "{ render: () => html` <ai-stack direction=\"row\" gap=\"sm\" align=\"center\"> <ai-badge tone=\"success\">pass</ai-badge> <ai-text size=\"meta\">42 tests</ai-text> </ai-stack> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "SurfacePlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { variant: \"outlined\", tone: \"neutral\", radius: \"md\", interactive: false, }, render: (args) => html` <ai-surface variant=${args.variant ?? \"flat\"} tone=${args.tone ?? \"neutral\"} radius=${args.radius ?? \"md\"} ?interactive=${args.interactive ?? false} > <div style=\"padding: 12px;\">Surface content</div> </ai-surface> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "SurfaceMeta",
-          "default": "surfaceMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "TextPlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { size: \"body\", weight: \"normal\", tone: \"default\", mono: false, truncate: false, inline: false, }, render: (args) => html` <ai-text size=${args.size ?? \"body\"} weight=${args.weight ?? \"normal\"} tone=${args.tone ?? \"default\"} ?mono=${args.mono ?? false} ?truncate=${args.truncate ?? false} ?inline=${args.inline ?? false} > The quick brown fox jumps over the lazy dog. </ai-text> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "TextSizes",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ render: () => html` <ai-stack gap=\"xs\"> <ai-text size=\"caption\">Caption — 0.75rem</ai-text> <ai-text size=\"meta\">Meta — 0.8125rem</ai-text> <ai-text size=\"ui\">UI — 0.875rem</ai-text> <ai-text size=\"body\">Body — 1rem</ai-text> <ai-text size=\"title\" weight=\"bold\">Title — 1.125rem</ai-text> <ai-text size=\"display\" weight=\"bold\">Display — 1.375rem</ai-text> </ai-stack> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "TextTones",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ render: () => html` <ai-stack gap=\"xs\"> <ai-text tone=\"default\">Default</ai-text> <ai-text tone=\"muted\">Muted</ai-text> <ai-text tone=\"accent\">Accent</ai-text> <ai-text tone=\"success\">Success</ai-text> <ai-text tone=\"warning\">Warning</ai-text> <ai-text tone=\"error\">Error</ai-text> </ai-stack> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "TextMeta",
-          "default": "textMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "MarkdownPlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { content: \"## Heading\\n\\nThis is **markdown** with `inline code` and [links](https://example.com).\\n\\n- List item one\\n- List item two\\n\\n```\\nconst x = 42;\\n```\", tone: \"assistant\", trusted: false, }, render: (args) => html` <ai-markdown .content=${args.content ?? \"\"} tone=${args.tone ?? \"assistant\"} ?trusted=${args.trusted ?? false} ></ai-markdown> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "MarkdownMeta",
-          "default": "markdownMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "BadgePlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { tone: \"neutral\", size: \"md\", dot: false, }, render: (args) => html` <ai-badge tone=${args.tone ?? \"neutral\"} size=${args.size ?? \"md\"} ?dot=${args.dot ?? false} > label </ai-badge> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "BadgesAll",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ render: () => html` <ai-stack direction=\"row\" gap=\"sm\" align=\"center\"> <ai-badge>neutral</ai-badge> <ai-badge tone=\"accent\">accent</ai-badge> <ai-badge tone=\"success\">success</ai-badge> <ai-badge tone=\"warning\">warning</ai-badge> <ai-badge tone=\"error\">error</ai-badge> <ai-badge tone=\"info\">info</ai-badge> </ai-stack> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "BadgeMeta",
-          "default": "badgeMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "StatusPlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { state: \"success\", size: \"md\", variant: \"dot\", }, render: (args) => html` <ai-status state=${args.state ?? \"unknown\"} size=${args.size ?? \"md\"} variant=${args.variant ?? \"dot\"} ></ai-status> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "StatusAll",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ render: () => html` <ai-stack direction=\"row\" gap=\"lg\" align=\"center\"> <ai-status state=\"idle\"></ai-status> <ai-status state=\"running\"></ai-status> <ai-status state=\"success\"></ai-status> <ai-status state=\"error\"></ai-status> <ai-status state=\"cancelled\"></ai-status> <ai-status state=\"unknown\"></ai-status> </ai-stack> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "StatusMeta",
-          "default": "statusMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "AvatarPlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { name: \"Ada Lovelace\", size: \"md\", tone: \"neutral\", }, render: (args) => html` <ai-avatar name=${args.name ?? \"\"} size=${args.size ?? \"md\"} tone=${args.tone ?? \"neutral\"} ></ai-avatar> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "AvatarMeta",
-          "default": "avatarMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "IconPlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { size: \"md\", tone: \"default\", }, render: (args) => html` <ai-icon size=${args.size ?? \"md\"} tone=${args.tone ?? \"default\"} > <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg> </ai-icon> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "IconMeta",
-          "default": "iconMeta"
-        },
-        {
-          "kind": "variable",
-          "name": "DividerPlayground",
-          "type": {
-            "text": "StoryObj"
-          },
-          "default": "{ args: { orientation: \"horizontal\", tone: \"default\", }, render: (args) => html` <div style=\"width: 300px;\"> <ai-text>Before</ai-text> <ai-divider orientation=${args.orientation ?? \"horizontal\"} tone=${args.tone ?? \"default\"} ></ai-divider> <ai-text>After</ai-text> </div> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "DividerMeta",
-          "default": "dividerMeta"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "stackMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "StackPlayground",
-          "declaration": {
-            "name": "StackPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "StackRow",
-          "declaration": {
-            "name": "StackRow",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "SurfacePlayground",
-          "declaration": {
-            "name": "SurfacePlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "SurfaceMeta",
-          "declaration": {
-            "name": "SurfaceMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TextPlayground",
-          "declaration": {
-            "name": "TextPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TextSizes",
-          "declaration": {
-            "name": "TextSizes",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TextTones",
-          "declaration": {
-            "name": "TextTones",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "TextMeta",
-          "declaration": {
-            "name": "TextMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MarkdownPlayground",
-          "declaration": {
-            "name": "MarkdownPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MarkdownMeta",
-          "declaration": {
-            "name": "MarkdownMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "BadgePlayground",
-          "declaration": {
-            "name": "BadgePlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "BadgesAll",
-          "declaration": {
-            "name": "BadgesAll",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "BadgeMeta",
-          "declaration": {
-            "name": "BadgeMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "StatusPlayground",
-          "declaration": {
-            "name": "StatusPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "StatusAll",
-          "declaration": {
-            "name": "StatusAll",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "StatusMeta",
-          "declaration": {
-            "name": "StatusMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AvatarPlayground",
-          "declaration": {
-            "name": "AvatarPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "AvatarMeta",
-          "declaration": {
-            "name": "AvatarMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "IconPlayground",
-          "declaration": {
-            "name": "IconPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "IconMeta",
-          "declaration": {
-            "name": "IconMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "DividerPlayground",
-          "declaration": {
-            "name": "DividerPlayground",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "DividerMeta",
-          "declaration": {
-            "name": "DividerMeta",
-            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/frontend/components/ai/stories/full-transcript.stories.ts",
-      "declarations": [
-        {
-          "kind": "variable",
-          "name": "meta",
-          "type": {
-            "text": "Meta"
-          },
-          "default": "{ title: \"Examples/FullTranscript\", component: \"ai-conversation\", tags: [\"autodocs\"], }"
-        },
-        {
-          "kind": "variable",
-          "name": "MessageFirst",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-conversation label=\"Example transcript\"> <ai-message role=\"user\" timestamp=\"2026-06-03T18:00:00.000Z\"> <ai-markdown tone=\"user\" content=\"Can you inspect the project and run tests?\"></ai-markdown> <time slot=\"meta\" datetime=\"2026-06-03T18:00:00.000Z\">6:00 PM</time> </ai-message> <ai-message role=\"assistant\" timestamp=\"2026-06-03T18:00:03.000Z\"> <ai-markdown content=\"I’ll inspect the repository, then run the focused checks.\"></ai-markdown> <ai-thinking content=\"I should first identify package scripts, then choose the smallest validation command.\" open></ai-thinking> <ai-tool-call id=\"read-package\" name=\"read\" headline=\"package.json\" status=\"success\" open> <ai-tool-result for=\"read-package\" name=\"read\" status=\"success\" content='{\"text\":\"scripts: check, lint, test, analyze\"}'></ai-tool-result> </ai-tool-call> <ai-tool-call id=\"run-tests\" name=\"bash\" headline=\"bun test src/\" status=\"running\" open> <pre slot=\"input\">bun test src/</pre> <ai-tool-result for=\"run-tests\" name=\"bash\" channel=\"stdout\" content=\"42 tests passing…\"></ai-tool-result> </ai-tool-call> <time slot=\"meta\" datetime=\"2026-06-03T18:00:03.000Z\">6:00 PM</time> </ai-message> <ai-event kind=\"checkpoint\" severity=\"info\" open> <span slot=\"summary\">Checkpoint saved</span> <span>Before message-first migration.</span> </ai-event> <ai-message role=\"tool\" for=\"run-tests\" timestamp=\"2026-06-03T18:00:08.000Z\"> <ai-tool-result for=\"run-tests\" name=\"bash\" status=\"success\" content=\"All tests passed.\"></ai-tool-result> <time slot=\"meta\" datetime=\"2026-06-03T18:00:08.000Z\">6:00 PM</time> </ai-message> </ai-conversation> `, }"
-        },
-        {
-          "kind": "variable",
-          "name": "Streaming",
-          "type": {
-            "text": "Story"
-          },
-          "default": "{ render: () => html` <ai-conversation live label=\"Streaming transcript\"> <ai-message role=\"assistant\" status=\"running\"> <ai-thinking content=\"Need to preserve current live thinking disclosure behavior.\" open></ai-thinking> <ai-tool-call id=\"streaming-bash\" name=\"bash\" headline=\"bun run check\" status=\"running\" open> <ai-tool-result for=\"streaming-bash\" name=\"bash\" channel=\"stdout\" content=\"Checking…\"></ai-tool-result> </ai-tool-call> <ai-markdown content=\"I’m checking the refactor now…\"></ai-markdown> </ai-message> </ai-conversation> `, }"
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "default",
-          "declaration": {
-            "name": "meta",
-            "module": "src/frontend/components/ai/stories/full-transcript.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "MessageFirst",
-          "declaration": {
-            "name": "MessageFirst",
-            "module": "src/frontend/components/ai/stories/full-transcript.stories.ts"
-          }
-        },
-        {
-          "kind": "js",
-          "name": "Streaming",
-          "declaration": {
-            "name": "Streaming",
-            "module": "src/frontend/components/ai/stories/full-transcript.stories.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/avatar.ts",
+      "path": "src/visual/avatar.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2538,7 +1938,7 @@
           "name": "AiAvatar",
           "declaration": {
             "name": "AiAvatar",
-            "module": "src/frontend/components/ai/visual/avatar.ts"
+            "module": "src/visual/avatar.ts"
           }
         },
         {
@@ -2546,14 +1946,14 @@
           "name": "ai-avatar",
           "declaration": {
             "name": "AiAvatar",
-            "module": "src/frontend/components/ai/visual/avatar.ts"
+            "module": "src/visual/avatar.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/badge.ts",
+      "path": "src/visual/badge.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2604,7 +2004,7 @@
               "kind": "field",
               "name": "tone",
               "type": {
-                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+                "text": "| \"neutral\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\"\n    | \"info\""
               },
               "default": "\"neutral\"",
               "description": "Semantic color tone.",
@@ -2648,7 +2048,7 @@
             {
               "name": "tone",
               "type": {
-                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+                "text": "| \"neutral\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\"\n    | \"info\""
               },
               "default": "\"neutral\"",
               "description": "Semantic color tone.",
@@ -2687,7 +2087,7 @@
           "name": "AiBadge",
           "declaration": {
             "name": "AiBadge",
-            "module": "src/frontend/components/ai/visual/badge.ts"
+            "module": "src/visual/badge.ts"
           }
         },
         {
@@ -2695,14 +2095,14 @@
           "name": "ai-badge",
           "declaration": {
             "name": "AiBadge",
-            "module": "src/frontend/components/ai/visual/badge.ts"
+            "module": "src/visual/badge.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/divider.ts",
+      "path": "src/visual/divider.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2794,7 +2194,7 @@
           "name": "AiDivider",
           "declaration": {
             "name": "AiDivider",
-            "module": "src/frontend/components/ai/visual/divider.ts"
+            "module": "src/visual/divider.ts"
           }
         },
         {
@@ -2802,14 +2202,14 @@
           "name": "ai-divider",
           "declaration": {
             "name": "AiDivider",
-            "module": "src/frontend/components/ai/visual/divider.ts"
+            "module": "src/visual/divider.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/icon.ts",
+      "path": "src/visual/icon.ts",
       "declarations": [
         {
           "kind": "class",
@@ -2847,7 +2247,7 @@
               "kind": "field",
               "name": "tone",
               "type": {
-                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+                "text": "| \"default\"\n    | \"muted\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\""
               },
               "default": "\"default\"",
               "description": "Semantic color tone.",
@@ -2878,7 +2278,7 @@
             {
               "name": "tone",
               "type": {
-                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+                "text": "| \"default\"\n    | \"muted\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\""
               },
               "default": "\"default\"",
               "description": "Semantic color tone.",
@@ -2899,7 +2299,7 @@
           "name": "AiIcon",
           "declaration": {
             "name": "AiIcon",
-            "module": "src/frontend/components/ai/visual/icon.ts"
+            "module": "src/visual/icon.ts"
           }
         },
         {
@@ -2907,14 +2307,93 @@
           "name": "ai-icon",
           "declaration": {
             "name": "AiIcon",
-            "module": "src/frontend/components/ai/visual/icon.ts"
+            "module": "src/visual/icon.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/markdown.ts",
+      "path": "src/visual/index.ts",
+      "declarations": [],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/stack"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/surface"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/text"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/markdown"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/badge"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/status"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/avatar"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/icon"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "*",
+          "declaration": {
+            "name": "*",
+            "module": "src/visual/divider"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/visual/markdown.ts",
       "declarations": [
         {
           "kind": "class",
@@ -3533,7 +3012,7 @@
           "name": "AiMarkdown",
           "declaration": {
             "name": "AiMarkdown",
-            "module": "src/frontend/components/ai/visual/markdown.ts"
+            "module": "src/visual/markdown.ts"
           }
         },
         {
@@ -3541,14 +3020,14 @@
           "name": "ai-markdown",
           "declaration": {
             "name": "AiMarkdown",
-            "module": "src/frontend/components/ai/visual/markdown.ts"
+            "module": "src/visual/markdown.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/stack.ts",
+      "path": "src/visual/stack.ts",
       "declarations": [
         {
           "kind": "class",
@@ -3612,7 +3091,7 @@
               "kind": "field",
               "name": "justify",
               "type": {
-                "text": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\""
+                "text": "| \"start\"\n    | \"center\"\n    | \"end\"\n    | \"between\"\n    | \"around\"\n    | \"evenly\""
               },
               "default": "\"start\"",
               "description": "Main-axis justification.",
@@ -3673,7 +3152,7 @@
             {
               "name": "justify",
               "type": {
-                "text": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\""
+                "text": "| \"start\"\n    | \"center\"\n    | \"end\"\n    | \"between\"\n    | \"around\"\n    | \"evenly\""
               },
               "default": "\"start\"",
               "description": "Main-axis justification.",
@@ -3712,7 +3191,7 @@
           "name": "AiStack",
           "declaration": {
             "name": "AiStack",
-            "module": "src/frontend/components/ai/visual/stack.ts"
+            "module": "src/visual/stack.ts"
           }
         },
         {
@@ -3720,14 +3199,14 @@
           "name": "ai-stack",
           "declaration": {
             "name": "AiStack",
-            "module": "src/frontend/components/ai/visual/stack.ts"
+            "module": "src/visual/stack.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/status.ts",
+      "path": "src/visual/status.ts",
       "declarations": [
         {
           "kind": "class",
@@ -3778,7 +3257,7 @@
               "kind": "field",
               "name": "state",
               "type": {
-                "text": "\"idle\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+                "text": "| \"idle\"\n    | \"running\"\n    | \"success\"\n    | \"error\"\n    | \"cancelled\"\n    | \"unknown\""
               },
               "default": "\"unknown\"",
               "description": "Current status state.",
@@ -3832,7 +3311,7 @@
             {
               "name": "state",
               "type": {
-                "text": "\"idle\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+                "text": "| \"idle\"\n    | \"running\"\n    | \"success\"\n    | \"error\"\n    | \"cancelled\"\n    | \"unknown\""
               },
               "default": "\"unknown\"",
               "description": "Current status state.",
@@ -3871,7 +3350,7 @@
           "name": "AiStatus",
           "declaration": {
             "name": "AiStatus",
-            "module": "src/frontend/components/ai/visual/status.ts"
+            "module": "src/visual/status.ts"
           }
         },
         {
@@ -3879,14 +3358,14 @@
           "name": "ai-status",
           "declaration": {
             "name": "AiStatus",
-            "module": "src/frontend/components/ai/visual/status.ts"
+            "module": "src/visual/status.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/surface.ts",
+      "path": "src/visual/surface.ts",
       "declarations": [
         {
           "kind": "class",
@@ -3948,7 +3427,7 @@
               "kind": "field",
               "name": "tone",
               "type": {
-                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+                "text": "| \"neutral\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\"\n    | \"info\""
               },
               "default": "\"neutral\"",
               "description": "Semantic color tone.",
@@ -4001,7 +3480,7 @@
             {
               "name": "tone",
               "type": {
-                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+                "text": "| \"neutral\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\"\n    | \"info\""
               },
               "default": "\"neutral\"",
               "description": "Semantic color tone.",
@@ -4040,7 +3519,7 @@
           "name": "AiSurface",
           "declaration": {
             "name": "AiSurface",
-            "module": "src/frontend/components/ai/visual/surface.ts"
+            "module": "src/visual/surface.ts"
           }
         },
         {
@@ -4048,14 +3527,14 @@
           "name": "ai-surface",
           "declaration": {
             "name": "AiSurface",
-            "module": "src/frontend/components/ai/visual/surface.ts"
+            "module": "src/visual/surface.ts"
           }
         }
       ]
     },
     {
       "kind": "javascript-module",
-      "path": "src/frontend/components/ai/visual/text.ts",
+      "path": "src/visual/text.ts",
       "declarations": [
         {
           "kind": "class",
@@ -4124,7 +3603,7 @@
               "kind": "field",
               "name": "tone",
               "type": {
-                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+                "text": "| \"default\"\n    | \"muted\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\""
               },
               "default": "\"default\"",
               "description": "Semantic color tone.",
@@ -4197,7 +3676,7 @@
             {
               "name": "tone",
               "type": {
-                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+                "text": "| \"default\"\n    | \"muted\"\n    | \"accent\"\n    | \"success\"\n    | \"warning\"\n    | \"error\""
               },
               "default": "\"default\"",
               "description": "Semantic color tone.",
@@ -4245,7 +3724,7 @@
           "name": "AiText",
           "declaration": {
             "name": "AiText",
-            "module": "src/frontend/components/ai/visual/text.ts"
+            "module": "src/visual/text.ts"
           }
         },
         {
@@ -4253,7 +3732,7 @@
           "name": "ai-text",
           "declaration": {
             "name": "AiText",
-            "module": "src/frontend/components/ai/visual/text.ts"
+            "module": "src/visual/text.ts"
           }
         }
       ]

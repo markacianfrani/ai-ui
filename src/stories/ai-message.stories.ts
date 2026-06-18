@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/web-components";
 import { html } from "lit";
-import "../../ai";
+import "..";
 
 const ROLES = ["user", "assistant", "system", "tool"] as const;
 const STATUSES = ["pending", "running", "success", "error", "cancelled", "unknown"] as const;
