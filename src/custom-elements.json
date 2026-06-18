@@ -1,0 +1,4262 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/semantic/ai-conversation.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Root ordered transcript container for message-first AI conversations.",
+          "name": "AiConversation",
+          "cssProperties": [
+            {
+              "description": "Conversation background. Default: transparent",
+              "name": "--ai-conversation-background"
+            },
+            {
+              "description": "Default text color. Default: var(--ai-color-text)",
+              "name": "--ai-conversation-color"
+            },
+            {
+              "description": "Vertical gap between direct child records. Default: var(--ai-space-lg)",
+              "name": "--ai-conversation-gap"
+            },
+            {
+              "description": "Gap when density=\"compact\". Default: var(--ai-space-sm)",
+              "name": "--ai-conversation-compact-gap"
+            },
+            {
+              "description": "Optional visual marker for live conversations. Default: transparent",
+              "name": "--ai-conversation-live-border-color"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Ordered records: ai-message, ai-tool-call, ai-tool-result, ai-thinking, ai-event, or native elements.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "density",
+              "type": {
+                "text": "\"comfortable\" | \"compact\""
+              },
+              "default": "\"comfortable\"",
+              "description": "Spacing density for transcript rows. Invalid values fall back to comfortable.",
+              "attribute": "density",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "live",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this is a live/streaming region. Adds aria-live=\"polite\" by default.",
+              "attribute": "live",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Conversation\"",
+              "description": "Accessible label for the conversation region.",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedDensity",
+              "type": {
+                "text": "\"comfortable\" | \"compact\""
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "density",
+              "type": {
+                "text": "\"comfortable\" | \"compact\""
+              },
+              "default": "\"comfortable\"",
+              "description": "Spacing density for transcript rows. Invalid values fall back to comfortable.",
+              "fieldName": "density"
+            },
+            {
+              "name": "live",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether this is a live/streaming region. Adds aria-live=\"polite\" by default.",
+              "fieldName": "live"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"Conversation\"",
+              "description": "Accessible label for the conversation region.",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-conversation",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiConversation",
+          "declaration": {
+            "name": "AiConversation",
+            "module": "src/frontend/components/ai/semantic/ai-conversation.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-conversation",
+          "declaration": {
+            "name": "AiConversation",
+            "module": "src/frontend/components/ai/semantic/ai-conversation.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/semantic/ai-event.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Non-message, non-operation transcript event.\n\nRepresents status changes, model switches, checkpoints, notes,\nsystem messages, errors, or custom events within an AI transcript.",
+          "name": "AiEvent",
+          "cssProperties": [
+            {
+              "description": "Event background. Default: transparent",
+              "name": "--ai-event-background-color"
+            },
+            {
+              "description": "Event text color. Default: var(--ai-color-text-muted)",
+              "name": "--ai-event-text-color"
+            },
+            {
+              "description": "Event border color. Default: var(--ai-color-border)",
+              "name": "--ai-event-border-color"
+            },
+            {
+              "description": "Event border width. Default: 0",
+              "name": "--ai-event-border-width"
+            },
+            {
+              "description": "Event border radius. Default: 0",
+              "name": "--ai-event-border-radius"
+            },
+            {
+              "description": "Content gap. Default: var(--ai-space-sm)",
+              "name": "--ai-event-content-gap"
+            },
+            {
+              "description": "Meta slot text color. Default: var(--ai-color-text-muted)",
+              "name": "--ai-event-meta-color"
+            },
+            {
+              "description": "Info severity color. Default: var(--ai-color-info)",
+              "name": "--ai-event-info-color"
+            },
+            {
+              "description": "Warning severity color. Default: var(--ai-color-warning)",
+              "name": "--ai-event-warning-color"
+            },
+            {
+              "description": "Error severity color. Default: var(--ai-color-error)",
+              "name": "--ai-event-error-color"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Custom summary/label override",
+              "name": "summary"
+            },
+            {
+              "description": "Timestamps, source labels",
+              "name": "meta"
+            },
+            {
+              "description": "Default: event content",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "kind",
+              "type": {
+                "text": "\"status\" | \"model-change\" | \"checkpoint\" | \"note\" | \"system\" | \"error\" | \"custom\""
+              },
+              "default": "\"custom\"",
+              "description": "Event kind.",
+              "attribute": "kind",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "severity",
+              "type": {
+                "text": "\"info\" | \"warning\" | \"error\""
+              },
+              "default": "\"info\"",
+              "description": "Severity level — controls accent color.",
+              "attribute": "severity",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "source",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Origin source identifier.",
+              "attribute": "source",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "htmlFor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "ID of the element this event pertains to (maps to `for` attribute).",
+              "attribute": "for",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the event details are expanded.",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "_details",
+              "type": {
+                "text": "HTMLDetailsElement | null"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Expand the event details."
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "description": "Collapse the event details."
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "force",
+                  "optional": true,
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ],
+              "description": "Toggle open state. Optionally force open/closed."
+            },
+            {
+              "kind": "field",
+              "name": "_prevOpen",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "false"
+            },
+            {
+              "kind": "method",
+              "name": "_onToggle",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "field",
+              "name": "_severityColor",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "_kindLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Dispatched when opened. Bubbles, composed.",
+              "name": "ai-show"
+            },
+            {
+              "description": "Dispatched when closed. Bubbles, composed.",
+              "name": "ai-hide"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "kind",
+              "type": {
+                "text": "\"status\" | \"model-change\" | \"checkpoint\" | \"note\" | \"system\" | \"error\" | \"custom\""
+              },
+              "default": "\"custom\"",
+              "description": "Event kind.",
+              "fieldName": "kind"
+            },
+            {
+              "name": "severity",
+              "type": {
+                "text": "\"info\" | \"warning\" | \"error\""
+              },
+              "default": "\"info\"",
+              "description": "Severity level — controls accent color.",
+              "fieldName": "severity"
+            },
+            {
+              "name": "source",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Origin source identifier.",
+              "fieldName": "source"
+            },
+            {
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "ID of the element this event pertains to (maps to `for` attribute).",
+              "fieldName": "htmlFor"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the event details are expanded.",
+              "fieldName": "open"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-event",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiEvent",
+          "declaration": {
+            "name": "AiEvent",
+            "module": "src/frontend/components/ai/semantic/ai-event.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-event",
+          "declaration": {
+            "name": "AiEvent",
+            "module": "src/frontend/components/ai/semantic/ai-event.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/semantic/ai-message.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Message-first transcript record with role-specific pi-ui presentation.",
+          "name": "AiMessage",
+          "cssProperties": [
+            {
+              "description": "Message body background. Default: transparent",
+              "name": "--ai-message-background"
+            },
+            {
+              "description": "Message text color. Default: inherit",
+              "name": "--ai-message-color"
+            },
+            {
+              "description": "Optional message border color. Default: transparent",
+              "name": "--ai-message-border-color"
+            },
+            {
+              "description": "Optional border width. Default: 0",
+              "name": "--ai-message-border-width"
+            },
+            {
+              "description": "Optional message radius. Default: 0",
+              "name": "--ai-message-radius"
+            },
+            {
+              "description": "Gap between slotted content blocks. Default: var(--spacing-xs)",
+              "name": "--ai-message-gap"
+            },
+            {
+              "description": "User bubble background. Default: var(--accent)",
+              "name": "--ai-message-user-background"
+            },
+            {
+              "description": "User bubble color. Default: var(--text-on-accent)",
+              "name": "--ai-message-user-color"
+            },
+            {
+              "description": "User bubble max width. Default: min(90%, 640px)",
+              "name": "--ai-message-user-max-width"
+            },
+            {
+              "description": "Assistant rail color.",
+              "name": "--ai-message-assistant-rail-color"
+            },
+            {
+              "description": "Assistant label color. Default: var(--text-muted)",
+              "name": "--ai-message-assistant-label-color"
+            },
+            {
+              "description": "Meta text color. Default: var(--text-muted)",
+              "name": "--ai-message-meta-color"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Content blocks, usually ai-markdown, ai-thinking, ai-tool-call, ai-tool-result, or ai-event.",
+              "name": ""
+            },
+            {
+              "description": "Timestamp, model, or other metadata. Prefer native <time>.",
+              "name": "meta"
+            },
+            {
+              "description": "Optional actor avatar.",
+              "name": "avatar"
+            },
+            {
+              "description": "Optional actor label.",
+              "name": "actor"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "role",
+              "type": {
+                "text": "\"user\" | \"assistant\" | \"system\" | \"tool\""
+              },
+              "default": "\"assistant\"",
+              "description": "Message author/source role. Unknown values render as system-style rows.",
+              "attribute": "role",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "htmlFor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional associated record id; maps to native `for` attribute.",
+              "attribute": "for",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "\"pending\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Message lifecycle status.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "timestamp",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "ISO-ish timestamp for metadata/association; visual formatting is left to slotted meta.",
+              "attribute": "timestamp",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Display label for role chrome.",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "normalizedRole",
+              "type": {
+                "text": "AiMessageRole"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "actorLabel",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "role",
+              "type": {
+                "text": "\"user\" | \"assistant\" | \"system\" | \"tool\""
+              },
+              "default": "\"assistant\"",
+              "description": "Message author/source role. Unknown values render as system-style rows.",
+              "fieldName": "role"
+            },
+            {
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional associated record id; maps to native `for` attribute.",
+              "fieldName": "htmlFor"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "\"pending\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Message lifecycle status.",
+              "fieldName": "status"
+            },
+            {
+              "name": "timestamp",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "ISO-ish timestamp for metadata/association; visual formatting is left to slotted meta.",
+              "fieldName": "timestamp"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Display label for role chrome.",
+              "fieldName": "label"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-message",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiMessage",
+          "declaration": {
+            "name": "AiMessage",
+            "module": "src/frontend/components/ai/semantic/ai-message.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-message",
+          "declaration": {
+            "name": "AiMessage",
+            "module": "src/frontend/components/ai/semantic/ai-message.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/semantic/ai-thinking.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Specialized assistant content block for model reasoning.",
+          "name": "AiThinking",
+          "cssProperties": [
+            {
+              "description": "Thinking content color.",
+              "name": "--ai-thinking-color"
+            },
+            {
+              "description": "Muted/placeholder color.",
+              "name": "--ai-thinking-muted-color"
+            },
+            {
+              "description": "Max scroll height. Default: 140px",
+              "name": "--ai-thinking-max-height"
+            },
+            {
+              "description": "Summary color.",
+              "name": "--ai-thinking-summary-color"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Thinking content if content property is not set.",
+              "name": ""
+            },
+            {
+              "description": "Optional metadata.",
+              "name": "meta"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Thinking text to render. Prefer property binding for streaming content.",
+              "attribute": "content"
+            },
+            {
+              "kind": "field",
+              "name": "source",
+              "type": {
+                "text": "\"model\" | \"assistant\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Origin of the thinking block.",
+              "attribute": "source",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "redacted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Thinking exists but is not available.",
+              "attribute": "redacted",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the disclosure is expanded.",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional summary headline. Defaults to a first-sentence summary of content.",
+              "attribute": "headline",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "force",
+                  "optional": true,
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleShow",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "handleHide",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "name": "ai-show",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Emitted when disclosure opens. Bubbles, composed."
+            },
+            {
+              "name": "ai-hide",
+              "type": {
+                "text": "CustomEvent"
+              },
+              "description": "Emitted when disclosure closes. Bubbles, composed."
+            }
+          ],
+          "attributes": [
+            {
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Thinking text to render. Prefer property binding for streaming content.",
+              "fieldName": "content"
+            },
+            {
+              "name": "source",
+              "type": {
+                "text": "\"model\" | \"assistant\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Origin of the thinking block.",
+              "fieldName": "source"
+            },
+            {
+              "name": "redacted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Thinking exists but is not available.",
+              "fieldName": "redacted"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the disclosure is expanded.",
+              "fieldName": "open"
+            },
+            {
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Optional summary headline. Defaults to a first-sentence summary of content.",
+              "fieldName": "headline"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-thinking",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiThinking",
+          "declaration": {
+            "name": "AiThinking",
+            "module": "src/frontend/components/ai/semantic/ai-thinking.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-thinking",
+          "declaration": {
+            "name": "AiThinking",
+            "module": "src/frontend/components/ai/semantic/ai-thinking.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/semantic/ai-tool-call.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Specialized assistant content block for a tool call.",
+          "name": "AiToolCall",
+          "cssProperties": [
+            {
+              "description": "Tool call background.",
+              "name": "--ai-tool-call-background"
+            },
+            {
+              "description": "Tool call text color.",
+              "name": "--ai-tool-call-color"
+            },
+            {
+              "description": "Tool call border color.",
+              "name": "--ai-tool-call-border-color"
+            },
+            {
+              "description": "Summary row background.",
+              "name": "--ai-tool-call-summary-background"
+            },
+            {
+              "description": "Input slot background.",
+              "name": "--ai-tool-call-input-background"
+            },
+            {
+              "description": "Generic status color.",
+              "name": "--ai-tool-call-status-color"
+            },
+            {
+              "description": "Success status color.",
+              "name": "--ai-tool-call-success-color"
+            },
+            {
+              "description": "Error status color.",
+              "name": "--ai-tool-call-error-color"
+            },
+            {
+              "description": "Running status color.",
+              "name": "--ai-tool-call-running-color"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Custom summary row/header",
+              "name": "summary"
+            },
+            {
+              "description": "Tool input/arguments; native <pre><code> is recommended.",
+              "name": "input"
+            },
+            {
+              "description": "Result/details content, commonly nested ai-tool-result.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "id",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "label",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "kind",
+              "type": {
+                "text": "\"tool\" | \"shell\" | \"file\" | \"search\" | \"delegate\" | \"network\" | \"custom\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "attribute": "kind",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "effect",
+              "type": {
+                "text": "\"read\" | \"write\" | \"mixed\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "attribute": "effect",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "headline",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "subline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "attribute": "subline",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "\"pending\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "open",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hasSlot",
+              "privacy": "private",
+              "readonly": true,
+              "default": "new HasSlotController(this, \"[default]\", \"input\", \"summary\")"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "badgeText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "headlineText",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasBodyContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasInputContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasSummaryContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "isExpandable",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "method",
+              "name": "show",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hide",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "toggle",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "force",
+                  "optional": true,
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "emitToggle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "isOpen",
+                  "type": {
+                    "text": "boolean"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "handleToggle",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "e",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderIcon",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "renderHeaderContent",
+              "privacy": "private"
+            }
+          ],
+          "events": [
+            {
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "description": "Emitted when disclosure opens. Bubbles, composed.",
+              "name": "ai-show"
+            },
+            {
+              "description": "Emitted when disclosure closes. Bubbles, composed.",
+              "name": "ai-hide"
+            }
+          ],
+          "attributes": [
+            {
+              "name": "id",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "id"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "name"
+            },
+            {
+              "name": "label",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "label"
+            },
+            {
+              "name": "kind",
+              "type": {
+                "text": "\"tool\" | \"shell\" | \"file\" | \"search\" | \"delegate\" | \"network\" | \"custom\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "fieldName": "kind"
+            },
+            {
+              "name": "effect",
+              "type": {
+                "text": "\"read\" | \"write\" | \"mixed\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "fieldName": "effect"
+            },
+            {
+              "name": "headline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "headline"
+            },
+            {
+              "name": "subline",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "fieldName": "subline"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "\"pending\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "fieldName": "status"
+            },
+            {
+              "name": "open",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "open"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-tool-call",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiToolCall",
+          "declaration": {
+            "name": "AiToolCall",
+            "module": "src/frontend/components/ai/semantic/ai-tool-call.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-tool-call",
+          "declaration": {
+            "name": "AiToolCall",
+            "module": "src/frontend/components/ai/semantic/ai-tool-call.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/semantic/ai-tool-result.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "normalizeToolOutput",
+          "return": {
+            "type": {
+              "text": "string"
+            }
+          },
+          "parameters": [
+            {
+              "name": "content",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        },
+        {
+          "kind": "class",
+          "description": "Specialized runtime/tool output content block.",
+          "name": "AiToolResult",
+          "cssProperties": [
+            {
+              "description": "Output text color.",
+              "name": "--ai-tool-result-color"
+            },
+            {
+              "description": "Output background.",
+              "name": "--ai-tool-result-background"
+            },
+            {
+              "description": "Meta slot text color.",
+              "name": "--ai-tool-result-meta-color"
+            },
+            {
+              "description": "Error text color.",
+              "name": "--ai-tool-result-error-color"
+            },
+            {
+              "description": "Code/output text color.",
+              "name": "--ai-tool-result-code-color"
+            },
+            {
+              "description": "Code/output font family.",
+              "name": "--ai-tool-result-code-font"
+            },
+            {
+              "description": "Maximum output height. Default: 240px",
+              "name": "--ai-tool-result-max-height"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Output content. If absent and content is set, renders normalized output in <pre>.",
+              "name": ""
+            },
+            {
+              "description": "Optional source/channel/truncation metadata.",
+              "name": "meta"
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "htmlFor",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Associated ai-tool-call[id]. Missing/mismatched ids are allowed.",
+              "attribute": "for",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tool/result source name.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "status",
+              "type": {
+                "text": "\"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Result status.",
+              "attribute": "status",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "channel",
+              "type": {
+                "text": "\"result\" | \"stdout\" | \"stderr\" | \"log\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Output channel.",
+              "attribute": "channel",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "contentType",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"text/plain\"",
+              "description": "MIME/content type hint.",
+              "attribute": "content-type",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Raw output content. Prefer property binding for large content.",
+              "attribute": "content"
+            },
+            {
+              "kind": "field",
+              "name": "truncated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the rendered output was truncated upstream.",
+              "attribute": "truncated",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "hasSlot",
+              "privacy": "private",
+              "readonly": true,
+              "default": "new HasSlotController(this, \"[default]\", \"meta\")"
+            },
+            {
+              "kind": "field",
+              "name": "hasDefaultContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            },
+            {
+              "kind": "field",
+              "name": "hasMetaContent",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "readonly": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "for",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Associated ai-tool-call[id]. Missing/mismatched ids are allowed.",
+              "fieldName": "htmlFor"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Tool/result source name.",
+              "fieldName": "name"
+            },
+            {
+              "name": "status",
+              "type": {
+                "text": "\"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Result status.",
+              "fieldName": "status"
+            },
+            {
+              "name": "channel",
+              "type": {
+                "text": "\"result\" | \"stdout\" | \"stderr\" | \"log\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Output channel.",
+              "fieldName": "channel"
+            },
+            {
+              "name": "content-type",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"text/plain\"",
+              "description": "MIME/content type hint.",
+              "fieldName": "contentType"
+            },
+            {
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Raw output content. Prefer property binding for large content.",
+              "fieldName": "content"
+            },
+            {
+              "name": "truncated",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the rendered output was truncated upstream.",
+              "fieldName": "truncated"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-tool-result",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "normalizeToolOutput",
+          "declaration": {
+            "name": "normalizeToolOutput",
+            "module": "src/frontend/components/ai/semantic/ai-tool-result.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "AiToolResult",
+          "declaration": {
+            "name": "AiToolResult",
+            "module": "src/frontend/components/ai/semantic/ai-tool-result.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-tool-result",
+          "declaration": {
+            "name": "AiToolResult",
+            "module": "src/frontend/components/ai/semantic/ai-tool-result.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/ai-conversation.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "meta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Semantic/AiConversation\", component: \"ai-conversation\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "SimpleConversation",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-conversation> <ai-message role=\"user\" timestamp=\"2026-06-03T18:30:00.000Z\"> <ai-markdown tone=\"user\" content=\"Can you read the file at \\`src/config.ts\\`?\"></ai-markdown> <time slot=\"meta\" datetime=\"2026-06-03T18:30:00.000Z\">6:30 PM</time> </ai-message> <ai-message role=\"assistant\" timestamp=\"2026-06-03T18:30:04.000Z\"> <ai-markdown content=\"Sure, let me take a look at that file.\"></ai-markdown> <ai-tool-call id=\"read-1\" name=\"read\" headline=\"src/config.ts\" status=\"success\" open> <pre slot=\"input\">src/config.ts</pre> <ai-tool-result for=\"read-1\" name=\"read\" status=\"success\" content='{\"text\":\"export const config = { port: 3000 };\"}'></ai-tool-result> </ai-tool-call> <time slot=\"meta\" datetime=\"2026-06-03T18:30:04.000Z\">6:30 PM</time> </ai-message> </ai-conversation> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "Playground",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { density: \"comfortable\", live: false, }, render: (args) => html` <ai-conversation density=${args.density ?? \"comfortable\"} ?live=${args.live ?? false} > <ai-message role=\"user\"> <ai-markdown tone=\"user\" content=\"Hello, how are you?\"></ai-markdown> </ai-message> <ai-message role=\"assistant\"> <ai-markdown content=\"I'm doing well! How can I help?\"></ai-markdown> </ai-message> </ai-conversation> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "Compact",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-conversation density=\"compact\"> <ai-message role=\"user\"><ai-markdown tone=\"user\" content=\"Hello\"></ai-markdown></ai-message> <ai-message role=\"assistant\"><ai-markdown content=\"Hi there!\"></ai-markdown></ai-message> <ai-message role=\"user\"><ai-markdown tone=\"user\" content=\"Thanks\"></ai-markdown></ai-message> </ai-conversation> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "Live",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-conversation live> <ai-message role=\"assistant\" status=\"running\"> <ai-thinking .content=${\"I need to inspect the latest logs before answering.\"} open></ai-thinking> <ai-tool-call id=\"bash-1\" name=\"bash\" headline=\"tail -20 server.log\" status=\"running\" open></ai-tool-call> </ai-message> </ai-conversation> `, }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "meta",
+            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SimpleConversation",
+          "declaration": {
+            "name": "SimpleConversation",
+            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Playground",
+          "declaration": {
+            "name": "Playground",
+            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Compact",
+          "declaration": {
+            "name": "Compact",
+            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Live",
+          "declaration": {
+            "name": "Live",
+            "module": "src/frontend/components/ai/stories/ai-conversation.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/ai-event.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "meta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Semantic/AiEvent\", component: \"ai-event\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "Playground",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { kind: \"status\", severity: \"info\", source: \"\", open: true, }, render: (args) => html` <ai-event kind=${args.kind ?? \"custom\"} severity=${args.severity ?? \"info\"} source=${args.source ?? \"\"} ?open=${args.open ?? false} > Session restored from checkpoint. </ai-event> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "ModelChange",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-event kind=\"model-change\" severity=\"info\"> Switched to claude-sonnet-4 </ai-event> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "ErrorEvent",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-event kind=\"error\" severity=\"error\" open> Connection lost. Reconnecting... </ai-event> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "Warning",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-event kind=\"note\" severity=\"warning\" open> Approaching token limit. </ai-event> `, }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "meta",
+            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Playground",
+          "declaration": {
+            "name": "Playground",
+            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ModelChange",
+          "declaration": {
+            "name": "ModelChange",
+            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ErrorEvent",
+          "declaration": {
+            "name": "ErrorEvent",
+            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Warning",
+          "declaration": {
+            "name": "Warning",
+            "module": "src/frontend/components/ai/stories/ai-event.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/ai-message.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "meta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Semantic/AiMessage\", component: \"ai-message\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "UserMessage",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { role: \"user\", timestamp: \"2026-06-03T18:30:00.000Z\", }, render: (args) => html` <ai-message role=${args.role ?? \"assistant\"} timestamp=${args.timestamp ?? \"\"}> <ai-markdown tone=\"user\" content=\"Can you inspect the project and run tests?\"></ai-markdown> <time slot=\"meta\" datetime=${args.timestamp ?? \"\"}>6:30 PM</time> </ai-message> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "AssistantMessage",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { role: \"assistant\", timestamp: \"2026-06-03T18:30:04.000Z\", }, render: (args) => html` <ai-message role=${args.role ?? \"assistant\"} timestamp=${args.timestamp ?? \"\"}> <ai-markdown content=\"I'll inspect the repository, then run the focused checks.\"></ai-markdown> <time slot=\"meta\" datetime=${args.timestamp ?? \"\"}>6:30 PM</time> </ai-message> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "ToolMessage",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { role: \"tool\", for: \"read-1\", timestamp: \"2026-06-03T18:30:06.000Z\", }, render: (args) => html` <ai-message role=${args.role ?? \"tool\"} for=${args.for ?? \"\"} timestamp=${args.timestamp ?? \"\"}> <ai-tool-result for=${args.for ?? \"\"} name=\"read\" status=\"success\" content=\"export const config = { port: 3000 };\"></ai-tool-result> <time slot=\"meta\" datetime=${args.timestamp ?? \"\"}>6:30 PM</time> </ai-message> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "RunningAssistant",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { role: \"assistant\", status: \"running\", }, render: (args) => html` <ai-message role=${args.role ?? \"assistant\"} status=${args.status ?? \"unknown\"}> <ai-tool-call id=\"bash-1\" name=\"bash\" headline=\"bun test\" status=\"running\" open> <ai-tool-result for=\"bash-1\" name=\"bash\" status=\"unknown\" content=\"Running...\"></ai-tool-result> </ai-tool-call> </ai-message> `, }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "meta",
+            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "UserMessage",
+          "declaration": {
+            "name": "UserMessage",
+            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "AssistantMessage",
+          "declaration": {
+            "name": "AssistantMessage",
+            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "ToolMessage",
+          "declaration": {
+            "name": "ToolMessage",
+            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "RunningAssistant",
+          "declaration": {
+            "name": "RunningAssistant",
+            "module": "src/frontend/components/ai/stories/ai-message.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/ai-thinking.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "meta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Semantic/AiThinking\", component: \"ai-thinking\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "Closed",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { source: \"model\", open: false, redacted: false, }, render: (args) => frame(html` <ai-thinking source=${args.source ?? \"unknown\"} ?open=${args.open ?? false} ?redacted=${args.redacted ?? false} .content=${thinkingText} ></ai-thinking> `), }"
+        },
+        {
+          "kind": "variable",
+          "name": "Open",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { source: \"model\", open: true, redacted: false, }, render: (args) => frame(html` <ai-thinking source=${args.source ?? \"unknown\"} ?open=${args.open ?? false} ?redacted=${args.redacted ?? false} .content=${thinkingText} ></ai-thinking> `), }"
+        },
+        {
+          "kind": "variable",
+          "name": "Redacted",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { source: \"model\", redacted: true, }, render: (args) => frame(html` <ai-thinking source=${args.source ?? \"unknown\"} ?redacted=${args.redacted ?? false} ></ai-thinking> `), }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "meta",
+            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Closed",
+          "declaration": {
+            "name": "Closed",
+            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Open",
+          "declaration": {
+            "name": "Open",
+            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Redacted",
+          "declaration": {
+            "name": "Redacted",
+            "module": "src/frontend/components/ai/stories/ai-thinking.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/ai-tool-call.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "meta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Semantic/AiToolCall\", component: \"ai-tool-call\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "Variants",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-conversation> <ai-message role=\"assistant\"> <ai-tool-call id=\"read\" name=\"read\" headline=\"src/frontend/chat-view.ts\" status=\"success\" open> <ai-tool-result for=\"read\" name=\"read\" status=\"success\" content=\"Loaded 120 lines.\"></ai-tool-result> </ai-tool-call> <ai-tool-call id=\"bash\" name=\"bash\" headline=\"bun test src/\" status=\"running\" open> <pre slot=\"input\">bun test src/</pre> <ai-tool-result for=\"bash\" name=\"bash\" status=\"unknown\" channel=\"stdout\" content=\"Running tests…\"></ai-tool-result> </ai-tool-call> <ai-tool-call id=\"edit\" name=\"edit\" headline=\"ai-message.ts\" subline=\"src/frontend/components/ai/semantic/ai-message.ts\" status=\"error\"> <ai-tool-result for=\"edit\" name=\"edit\" status=\"error\" content='{\"error\":\"Patch did not apply\"}'></ai-tool-result> </ai-tool-call> </ai-message> </ai-conversation> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "Playground",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ args: { id: \"playground-1\", name: \"read\", headline: \"src/config.ts\", subline: \"\", status: \"success\", open: true, }, render: (args) => html` <ai-conversation> <ai-message role=\"assistant\"> <ai-tool-call id=${args.id ?? \"\"} name=${args.name ?? \"\"} headline=${args.headline ?? \"\"} subline=${args.subline ?? \"\"} status=${args.status ?? \"unknown\"} ?open=${args.open ?? false} > <pre slot=\"input\">src/config.ts</pre> <ai-tool-result for=${args.id ?? \"\"} name=${args.name ?? \"\"} status=\"success\" content=\"export const config = { port: 3000 };\"></ai-tool-result> </ai-tool-call> </ai-message> </ai-conversation> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "CustomSummary",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-tool-call id=\"custom\" name=\"custom\" status=\"success\" open> <div slot=\"summary\">Custom summary slot</div> <ai-tool-result for=\"custom\" content=\"Custom result content\"></ai-tool-result> </ai-tool-call> `, }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "meta",
+            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Variants",
+          "declaration": {
+            "name": "Variants",
+            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Playground",
+          "declaration": {
+            "name": "Playground",
+            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "CustomSummary",
+          "declaration": {
+            "name": "CustomSummary",
+            "module": "src/frontend/components/ai/stories/ai-tool-call.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "stackMeta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Visual/AiStack\", component: \"ai-stack\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "StackPlayground",
+          "type": {
+            "text": "StackStory"
+          },
+          "default": "{ args: { direction: \"column\", gap: \"md\", align: \"stretch\", justify: \"start\", wrap: false, inline: false, }, render: (args) => html` <ai-stack direction=${args.direction ?? \"column\"} gap=${args.gap ?? \"none\"} align=${args.align ?? \"stretch\"} justify=${args.justify ?? \"start\"} ?wrap=${args.wrap ?? false} ?inline=${args.inline ?? false} style=\"max-width: 300px;\" > <div style=\"background: var(--surface); padding: 8px; border-radius: 4px;\">Row 1</div> <div style=\"background: var(--surface); padding: 8px; border-radius: 4px;\">Row 2</div> <div style=\"background: var(--surface); padding: 8px; border-radius: 4px;\">Row 3</div> </ai-stack> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "StackRow",
+          "type": {
+            "text": "StackStory"
+          },
+          "default": "{ render: () => html` <ai-stack direction=\"row\" gap=\"sm\" align=\"center\"> <ai-badge tone=\"success\">pass</ai-badge> <ai-text size=\"meta\">42 tests</ai-text> </ai-stack> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "SurfacePlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { variant: \"outlined\", tone: \"neutral\", radius: \"md\", interactive: false, }, render: (args) => html` <ai-surface variant=${args.variant ?? \"flat\"} tone=${args.tone ?? \"neutral\"} radius=${args.radius ?? \"md\"} ?interactive=${args.interactive ?? false} > <div style=\"padding: 12px;\">Surface content</div> </ai-surface> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "SurfaceMeta",
+          "default": "surfaceMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "TextPlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { size: \"body\", weight: \"normal\", tone: \"default\", mono: false, truncate: false, inline: false, }, render: (args) => html` <ai-text size=${args.size ?? \"body\"} weight=${args.weight ?? \"normal\"} tone=${args.tone ?? \"default\"} ?mono=${args.mono ?? false} ?truncate=${args.truncate ?? false} ?inline=${args.inline ?? false} > The quick brown fox jumps over the lazy dog. </ai-text> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "TextSizes",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ render: () => html` <ai-stack gap=\"xs\"> <ai-text size=\"caption\">Caption — 0.75rem</ai-text> <ai-text size=\"meta\">Meta — 0.8125rem</ai-text> <ai-text size=\"ui\">UI — 0.875rem</ai-text> <ai-text size=\"body\">Body — 1rem</ai-text> <ai-text size=\"title\" weight=\"bold\">Title — 1.125rem</ai-text> <ai-text size=\"display\" weight=\"bold\">Display — 1.375rem</ai-text> </ai-stack> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "TextTones",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ render: () => html` <ai-stack gap=\"xs\"> <ai-text tone=\"default\">Default</ai-text> <ai-text tone=\"muted\">Muted</ai-text> <ai-text tone=\"accent\">Accent</ai-text> <ai-text tone=\"success\">Success</ai-text> <ai-text tone=\"warning\">Warning</ai-text> <ai-text tone=\"error\">Error</ai-text> </ai-stack> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "TextMeta",
+          "default": "textMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "MarkdownPlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { content: \"## Heading\\n\\nThis is **markdown** with `inline code` and [links](https://example.com).\\n\\n- List item one\\n- List item two\\n\\n```\\nconst x = 42;\\n```\", tone: \"assistant\", trusted: false, }, render: (args) => html` <ai-markdown .content=${args.content ?? \"\"} tone=${args.tone ?? \"assistant\"} ?trusted=${args.trusted ?? false} ></ai-markdown> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "MarkdownMeta",
+          "default": "markdownMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "BadgePlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { tone: \"neutral\", size: \"md\", dot: false, }, render: (args) => html` <ai-badge tone=${args.tone ?? \"neutral\"} size=${args.size ?? \"md\"} ?dot=${args.dot ?? false} > label </ai-badge> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "BadgesAll",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ render: () => html` <ai-stack direction=\"row\" gap=\"sm\" align=\"center\"> <ai-badge>neutral</ai-badge> <ai-badge tone=\"accent\">accent</ai-badge> <ai-badge tone=\"success\">success</ai-badge> <ai-badge tone=\"warning\">warning</ai-badge> <ai-badge tone=\"error\">error</ai-badge> <ai-badge tone=\"info\">info</ai-badge> </ai-stack> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "BadgeMeta",
+          "default": "badgeMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "StatusPlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { state: \"success\", size: \"md\", variant: \"dot\", }, render: (args) => html` <ai-status state=${args.state ?? \"unknown\"} size=${args.size ?? \"md\"} variant=${args.variant ?? \"dot\"} ></ai-status> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "StatusAll",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ render: () => html` <ai-stack direction=\"row\" gap=\"lg\" align=\"center\"> <ai-status state=\"idle\"></ai-status> <ai-status state=\"running\"></ai-status> <ai-status state=\"success\"></ai-status> <ai-status state=\"error\"></ai-status> <ai-status state=\"cancelled\"></ai-status> <ai-status state=\"unknown\"></ai-status> </ai-stack> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "StatusMeta",
+          "default": "statusMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "AvatarPlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { name: \"Ada Lovelace\", size: \"md\", tone: \"neutral\", }, render: (args) => html` <ai-avatar name=${args.name ?? \"\"} size=${args.size ?? \"md\"} tone=${args.tone ?? \"neutral\"} ></ai-avatar> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "AvatarMeta",
+          "default": "avatarMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "IconPlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { size: \"md\", tone: \"default\", }, render: (args) => html` <ai-icon size=${args.size ?? \"md\"} tone=${args.tone ?? \"default\"} > <svg viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\"><circle cx=\"12\" cy=\"12\" r=\"10\"/></svg> </ai-icon> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "IconMeta",
+          "default": "iconMeta"
+        },
+        {
+          "kind": "variable",
+          "name": "DividerPlayground",
+          "type": {
+            "text": "StoryObj"
+          },
+          "default": "{ args: { orientation: \"horizontal\", tone: \"default\", }, render: (args) => html` <div style=\"width: 300px;\"> <ai-text>Before</ai-text> <ai-divider orientation=${args.orientation ?? \"horizontal\"} tone=${args.tone ?? \"default\"} ></ai-divider> <ai-text>After</ai-text> </div> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "DividerMeta",
+          "default": "dividerMeta"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "stackMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "StackPlayground",
+          "declaration": {
+            "name": "StackPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "StackRow",
+          "declaration": {
+            "name": "StackRow",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SurfacePlayground",
+          "declaration": {
+            "name": "SurfacePlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "SurfaceMeta",
+          "declaration": {
+            "name": "SurfaceMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TextPlayground",
+          "declaration": {
+            "name": "TextPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TextSizes",
+          "declaration": {
+            "name": "TextSizes",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TextTones",
+          "declaration": {
+            "name": "TextTones",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "TextMeta",
+          "declaration": {
+            "name": "TextMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MarkdownPlayground",
+          "declaration": {
+            "name": "MarkdownPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MarkdownMeta",
+          "declaration": {
+            "name": "MarkdownMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BadgePlayground",
+          "declaration": {
+            "name": "BadgePlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BadgesAll",
+          "declaration": {
+            "name": "BadgesAll",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "BadgeMeta",
+          "declaration": {
+            "name": "BadgeMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "StatusPlayground",
+          "declaration": {
+            "name": "StatusPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "StatusAll",
+          "declaration": {
+            "name": "StatusAll",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "StatusMeta",
+          "declaration": {
+            "name": "StatusMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "AvatarPlayground",
+          "declaration": {
+            "name": "AvatarPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "AvatarMeta",
+          "declaration": {
+            "name": "AvatarMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IconPlayground",
+          "declaration": {
+            "name": "IconPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "IconMeta",
+          "declaration": {
+            "name": "IconMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DividerPlayground",
+          "declaration": {
+            "name": "DividerPlayground",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "DividerMeta",
+          "declaration": {
+            "name": "DividerMeta",
+            "module": "src/frontend/components/ai/stories/ai-visual-atoms.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/stories/full-transcript.stories.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "meta",
+          "type": {
+            "text": "Meta"
+          },
+          "default": "{ title: \"Examples/FullTranscript\", component: \"ai-conversation\", tags: [\"autodocs\"], }"
+        },
+        {
+          "kind": "variable",
+          "name": "MessageFirst",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-conversation label=\"Example transcript\"> <ai-message role=\"user\" timestamp=\"2026-06-03T18:00:00.000Z\"> <ai-markdown tone=\"user\" content=\"Can you inspect the project and run tests?\"></ai-markdown> <time slot=\"meta\" datetime=\"2026-06-03T18:00:00.000Z\">6:00 PM</time> </ai-message> <ai-message role=\"assistant\" timestamp=\"2026-06-03T18:00:03.000Z\"> <ai-markdown content=\"I’ll inspect the repository, then run the focused checks.\"></ai-markdown> <ai-thinking content=\"I should first identify package scripts, then choose the smallest validation command.\" open></ai-thinking> <ai-tool-call id=\"read-package\" name=\"read\" headline=\"package.json\" status=\"success\" open> <ai-tool-result for=\"read-package\" name=\"read\" status=\"success\" content='{\"text\":\"scripts: check, lint, test, analyze\"}'></ai-tool-result> </ai-tool-call> <ai-tool-call id=\"run-tests\" name=\"bash\" headline=\"bun test src/\" status=\"running\" open> <pre slot=\"input\">bun test src/</pre> <ai-tool-result for=\"run-tests\" name=\"bash\" channel=\"stdout\" content=\"42 tests passing…\"></ai-tool-result> </ai-tool-call> <time slot=\"meta\" datetime=\"2026-06-03T18:00:03.000Z\">6:00 PM</time> </ai-message> <ai-event kind=\"checkpoint\" severity=\"info\" open> <span slot=\"summary\">Checkpoint saved</span> <span>Before message-first migration.</span> </ai-event> <ai-message role=\"tool\" for=\"run-tests\" timestamp=\"2026-06-03T18:00:08.000Z\"> <ai-tool-result for=\"run-tests\" name=\"bash\" status=\"success\" content=\"All tests passed.\"></ai-tool-result> <time slot=\"meta\" datetime=\"2026-06-03T18:00:08.000Z\">6:00 PM</time> </ai-message> </ai-conversation> `, }"
+        },
+        {
+          "kind": "variable",
+          "name": "Streaming",
+          "type": {
+            "text": "Story"
+          },
+          "default": "{ render: () => html` <ai-conversation live label=\"Streaming transcript\"> <ai-message role=\"assistant\" status=\"running\"> <ai-thinking content=\"Need to preserve current live thinking disclosure behavior.\" open></ai-thinking> <ai-tool-call id=\"streaming-bash\" name=\"bash\" headline=\"bun run check\" status=\"running\" open> <ai-tool-result for=\"streaming-bash\" name=\"bash\" channel=\"stdout\" content=\"Checking…\"></ai-tool-result> </ai-tool-call> <ai-markdown content=\"I’m checking the refactor now…\"></ai-markdown> </ai-message> </ai-conversation> `, }"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "default",
+          "declaration": {
+            "name": "meta",
+            "module": "src/frontend/components/ai/stories/full-transcript.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "MessageFirst",
+          "declaration": {
+            "name": "MessageFirst",
+            "module": "src/frontend/components/ai/stories/full-transcript.stories.ts"
+          }
+        },
+        {
+          "kind": "js",
+          "name": "Streaming",
+          "declaration": {
+            "name": "Streaming",
+            "module": "src/frontend/components/ai/stories/full-transcript.stories.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/avatar.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Actor/agent identity marker.",
+          "name": "AiAvatar",
+          "cssProperties": [
+            {
+              "description": "Avatar width/height.",
+              "name": "--size"
+            },
+            {
+              "description": "Fallback background.",
+              "name": "--background-color"
+            },
+            {
+              "description": "Initials/icon color.",
+              "name": "--text-color"
+            },
+            {
+              "description": "Border color.",
+              "name": "--border-color"
+            },
+            {
+              "description": "Avatar radius.",
+              "name": "--border-radius"
+            },
+            {
+              "description": "Initials font size.",
+              "name": "--font-size"
+            },
+            {
+              "description": "Initials font weight. Default: 700",
+              "name": "--font-weight"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Custom avatar content/icon.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Image source URL. When set, renders an <img>.",
+              "attribute": "src",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Display name. Used for initials fallback and img alt text.",
+              "attribute": "name",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"neutral\" | \"accent\" | \"user\" | \"assistant\" | \"agent\""
+              },
+              "default": "\"neutral\"",
+              "description": "Semantic color tone.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "getInitials",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getToneColors",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ bg: string; text: string; border: string }"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "src",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Image source URL. When set, renders an <img>.",
+              "fieldName": "src"
+            },
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Display name. Used for initials fallback and img alt text.",
+              "fieldName": "name"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "fieldName": "size"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"neutral\" | \"accent\" | \"user\" | \"assistant\" | \"agent\""
+              },
+              "default": "\"neutral\"",
+              "description": "Semantic color tone.",
+              "fieldName": "tone"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-avatar",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiAvatar",
+          "declaration": {
+            "name": "AiAvatar",
+            "module": "src/frontend/components/ai/visual/avatar.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-avatar",
+          "declaration": {
+            "name": "AiAvatar",
+            "module": "src/frontend/components/ai/visual/avatar.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/badge.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Compact semantic label/status chip.",
+          "name": "AiBadge",
+          "cssProperties": [
+            {
+              "description": "Badge background.",
+              "name": "--background-color"
+            },
+            {
+              "description": "Badge text color.",
+              "name": "--text-color"
+            },
+            {
+              "description": "Badge border color.",
+              "name": "--border-color"
+            },
+            {
+              "description": "Badge radius.",
+              "name": "--border-radius"
+            },
+            {
+              "description": "Leading dot color.",
+              "name": "--dot-color"
+            },
+            {
+              "description": "Font size.",
+              "name": "--font-size"
+            },
+            {
+              "description": "Font weight. Default: 600",
+              "name": "--font-weight"
+            },
+            {
+              "description": "Gap between dot/content.",
+              "name": "--inline-gap"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Badge label.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+              },
+              "default": "\"neutral\"",
+              "description": "Semantic color tone.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to show a leading dot indicator.",
+              "attribute": "dot",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "getToneColors",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ bg: string; text: string; border: string }"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+              },
+              "default": "\"neutral\"",
+              "description": "Semantic color tone.",
+              "fieldName": "tone"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"sm\" | \"md\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "fieldName": "size"
+            },
+            {
+              "name": "dot",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to show a leading dot indicator.",
+              "fieldName": "dot"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-badge",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiBadge",
+          "declaration": {
+            "name": "AiBadge",
+            "module": "src/frontend/components/ai/visual/badge.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-badge",
+          "declaration": {
+            "name": "AiBadge",
+            "module": "src/frontend/components/ai/visual/badge.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/divider.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Separator/section marker.",
+          "name": "AiDivider",
+          "cssProperties": [
+            {
+              "description": "Divider line color.",
+              "name": "--line-color"
+            },
+            {
+              "description": "Divider thickness.",
+              "name": "--line-width"
+            },
+            {
+              "description": "Label text color.",
+              "name": "--text-color"
+            },
+            {
+              "description": "Label background to mask line.",
+              "name": "--label-background-color"
+            },
+            {
+              "description": "Gap between line and label.",
+              "name": "--label-gap"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Optional label/content centered in divider.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "orientation",
+              "type": {
+                "text": "\"horizontal\" | \"vertical\""
+              },
+              "default": "\"horizontal\"",
+              "description": "Axis of the divider line.",
+              "attribute": "orientation",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"subtle\" | \"default\" | \"strong\""
+              },
+              "default": "\"default\"",
+              "description": "Visual prominence of the divider.",
+              "attribute": "tone",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "orientation",
+              "type": {
+                "text": "\"horizontal\" | \"vertical\""
+              },
+              "default": "\"horizontal\"",
+              "description": "Axis of the divider line.",
+              "fieldName": "orientation"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"subtle\" | \"default\" | \"strong\""
+              },
+              "default": "\"default\"",
+              "description": "Visual prominence of the divider.",
+              "fieldName": "tone"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-divider",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiDivider",
+          "declaration": {
+            "name": "AiDivider",
+            "module": "src/frontend/components/ai/visual/divider.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-divider",
+          "declaration": {
+            "name": "AiDivider",
+            "module": "src/frontend/components/ai/visual/divider.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/icon.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Consistent icon sizing/tone wrapper.",
+          "name": "AiIcon",
+          "cssProperties": [
+            {
+              "description": "Icon width/height.",
+              "name": "--size"
+            },
+            {
+              "description": "Icon color.",
+              "name": "--color"
+            }
+          ],
+          "slots": [
+            {
+              "description": "SVG/icon content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+              },
+              "default": "\"default\"",
+              "description": "Semantic color tone.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "getToneColor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "fieldName": "size"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+              },
+              "default": "\"default\"",
+              "description": "Semantic color tone.",
+              "fieldName": "tone"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-icon",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiIcon",
+          "declaration": {
+            "name": "AiIcon",
+            "module": "src/frontend/components/ai/visual/icon.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-icon",
+          "declaration": {
+            "name": "AiIcon",
+            "module": "src/frontend/components/ai/visual/icon.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/markdown.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Markdown content renderer. Parses and renders markdown source.",
+          "name": "AiMarkdown",
+          "cssProperties": [
+            {
+              "description": "Body text color.",
+              "name": "--ai-markdown-color"
+            },
+            {
+              "description": "Link color.",
+              "name": "--ai-markdown-link-color"
+            },
+            {
+              "description": "Inline/block code background.",
+              "name": "--ai-markdown-code-background"
+            },
+            {
+              "description": "Code text color.",
+              "name": "--ai-markdown-code-color"
+            },
+            {
+              "description": "Blockquote/table/pre border.",
+              "name": "--ai-markdown-border-color"
+            },
+            {
+              "description": "Heading color.",
+              "name": "--ai-markdown-heading-color"
+            },
+            {
+              "description": "Vertical rhythm between markdown blocks.",
+              "name": "--ai-markdown-gap"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Fallback content if content property is empty.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Markdown content to render. Does NOT reflect (large content).",
+              "attribute": "content"
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"assistant\" | \"user\" | \"system\" | \"tool\""
+              },
+              "default": "\"assistant\"",
+              "description": "Visual tone for prose style parity with pi-ui messages.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "trusted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the content is trusted (affects link behavior).",
+              "attribute": "trusted",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "parseInlines",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "InlinePart[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderInline",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "text",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseTableRow",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "line",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseTableAligns",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "(\"left\" | \"center\" | \"right\")[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "separator",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isTableSeparator",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "line",
+                  "type": {
+                    "text": "string"
+                  }
+                },
+                {
+                  "name": "columnCount",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "indentLevel",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "line",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseBlocks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Block[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "source",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseCodeBlock",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseHeadingBlock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Block | undefined"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseBlockquoteBlock",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseListBlock",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "skipBlankLines",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "from",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseNestedChildren",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "Block[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "baseIndent",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "collectList",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "type",
+                  "type": {
+                    "text": "\"ul\" | \"ol\""
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "countNestedLines",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "number"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "baseIndent",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseTableBlock",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "parseParagraphBlock",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "startIndex",
+                  "type": {
+                    "text": "number"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "startsStructuredBlock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "startsTable",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "isTableStart",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "lines",
+                  "type": {
+                    "text": "string[]"
+                  }
+                },
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "number"
+                  }
+                },
+                {
+                  "name": "trimmed",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderBlocks",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "unknown"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "blocks",
+                  "type": {
+                    "text": "Block[]"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderBlock",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "unknown"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "block",
+                  "type": {
+                    "text": "Block"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "renderMarkdown",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "source",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            }
+          ],
+          "attributes": [
+            {
+              "name": "content",
+              "type": {
+                "text": "string"
+              },
+              "default": "\"\"",
+              "description": "Markdown content to render. Does NOT reflect (large content).",
+              "fieldName": "content"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"assistant\" | \"user\" | \"system\" | \"tool\""
+              },
+              "default": "\"assistant\"",
+              "description": "Visual tone for prose style parity with pi-ui messages.",
+              "fieldName": "tone"
+            },
+            {
+              "name": "trusted",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the content is trusted (affects link behavior).",
+              "fieldName": "trusted"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-markdown",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiMarkdown",
+          "declaration": {
+            "name": "AiMarkdown",
+            "module": "src/frontend/components/ai/visual/markdown.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-markdown",
+          "declaration": {
+            "name": "AiMarkdown",
+            "module": "src/frontend/components/ai/visual/markdown.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/stack.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Flex layout primitive.",
+          "name": "AiStack",
+          "cssProperties": [
+            {
+              "description": "Overrides computed gap.",
+              "name": "--gap"
+            },
+            {
+              "description": "Overrides align-items.",
+              "name": "--align-items"
+            },
+            {
+              "description": "Overrides justify-content.",
+              "name": "--justify-content"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Stack children.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "direction",
+              "type": {
+                "text": "\"row\" | \"column\""
+              },
+              "default": "\"column\"",
+              "description": "Flex direction.",
+              "attribute": "direction",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "gap",
+              "type": {
+                "text": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"none\"",
+              "description": "Gap between children.",
+              "attribute": "gap",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "align",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"stretch\" | \"baseline\""
+              },
+              "default": "\"stretch\"",
+              "description": "Cross-axis alignment.",
+              "attribute": "align",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "justify",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\""
+              },
+              "default": "\"start\"",
+              "description": "Main-axis justification.",
+              "attribute": "justify",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether children wrap.",
+              "attribute": "wrap",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to use inline-flex instead of flex.",
+              "attribute": "inline",
+              "reflects": true
+            }
+          ],
+          "attributes": [
+            {
+              "name": "direction",
+              "type": {
+                "text": "\"row\" | \"column\""
+              },
+              "default": "\"column\"",
+              "description": "Flex direction.",
+              "fieldName": "direction"
+            },
+            {
+              "name": "gap",
+              "type": {
+                "text": "\"none\" | \"2xs\" | \"xs\" | \"sm\" | \"md\" | \"lg\" | \"xl\" | \"2xl\""
+              },
+              "default": "\"none\"",
+              "description": "Gap between children.",
+              "fieldName": "gap"
+            },
+            {
+              "name": "align",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"stretch\" | \"baseline\""
+              },
+              "default": "\"stretch\"",
+              "description": "Cross-axis alignment.",
+              "fieldName": "align"
+            },
+            {
+              "name": "justify",
+              "type": {
+                "text": "\"start\" | \"center\" | \"end\" | \"between\" | \"around\" | \"evenly\""
+              },
+              "default": "\"start\"",
+              "description": "Main-axis justification.",
+              "fieldName": "justify"
+            },
+            {
+              "name": "wrap",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether children wrap.",
+              "fieldName": "wrap"
+            },
+            {
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to use inline-flex instead of flex.",
+              "fieldName": "inline"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-stack",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiStack",
+          "declaration": {
+            "name": "AiStack",
+            "module": "src/frontend/components/ai/visual/stack.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-stack",
+          "declaration": {
+            "name": "AiStack",
+            "module": "src/frontend/components/ai/visual/stack.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/status.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Status dot/icon indicator.",
+          "name": "AiStatus",
+          "cssProperties": [
+            {
+              "description": "Indicator size.",
+              "name": "--size"
+            },
+            {
+              "description": "Indicator color.",
+              "name": "--color"
+            },
+            {
+              "description": "Idle color.",
+              "name": "--idle-color"
+            },
+            {
+              "description": "Running color.",
+              "name": "--running-color"
+            },
+            {
+              "description": "Success color.",
+              "name": "--success-color"
+            },
+            {
+              "description": "Error color.",
+              "name": "--error-color"
+            },
+            {
+              "description": "Cancelled color.",
+              "name": "--cancelled-color"
+            },
+            {
+              "description": "Running pulse duration. Default: 1.5s",
+              "name": "--pulse-duration"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Optional custom icon/content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "state",
+              "type": {
+                "text": "\"idle\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Current status state.",
+              "attribute": "state",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "\"dot\" | \"icon\""
+              },
+              "default": "\"dot\"",
+              "description": "Display variant — dot or icon.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "getStateColor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "getFallbackIconPath",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "state",
+              "type": {
+                "text": "\"idle\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
+              },
+              "default": "\"unknown\"",
+              "description": "Current status state.",
+              "fieldName": "state"
+            },
+            {
+              "name": "size",
+              "type": {
+                "text": "\"xs\" | \"sm\" | \"md\" | \"lg\""
+              },
+              "default": "\"md\"",
+              "description": "Size preset.",
+              "fieldName": "size"
+            },
+            {
+              "name": "variant",
+              "type": {
+                "text": "\"dot\" | \"icon\""
+              },
+              "default": "\"dot\"",
+              "description": "Display variant — dot or icon.",
+              "fieldName": "variant"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-status",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiStatus",
+          "declaration": {
+            "name": "AiStatus",
+            "module": "src/frontend/components/ai/visual/status.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-status",
+          "declaration": {
+            "name": "AiStatus",
+            "module": "src/frontend/components/ai/visual/status.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/surface.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Themed container/surface.",
+          "name": "AiSurface",
+          "cssProperties": [
+            {
+              "description": "Surface background.",
+              "name": "--background-color"
+            },
+            {
+              "description": "Surface text color.",
+              "name": "--text-color"
+            },
+            {
+              "description": "Border color.",
+              "name": "--border-color"
+            },
+            {
+              "description": "Border width.",
+              "name": "--border-width"
+            },
+            {
+              "description": "Border radius.",
+              "name": "--border-radius"
+            },
+            {
+              "description": "Box shadow.",
+              "name": "--shadow"
+            },
+            {
+              "description": "Hover background when interactive.",
+              "name": "--hover-background-color"
+            },
+            {
+              "description": "Focus ring for slotted/native focus styling.",
+              "name": "--focus-ring"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Surface content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "variant",
+              "type": {
+                "text": "\"flat\" | \"outlined\" | \"raised\" | \"sunken\""
+              },
+              "default": "\"flat\"",
+              "description": "Visual variant.",
+              "attribute": "variant",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+              },
+              "default": "\"neutral\"",
+              "description": "Semantic color tone.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "radius",
+              "type": {
+                "text": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"pill\""
+              },
+              "default": "\"md\"",
+              "description": "Border radius preset.",
+              "attribute": "radius",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the surface is clickable/hoverable.",
+              "attribute": "interactive",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "getToneColors",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "{ bg: string; text: string; border: string }"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "variant",
+              "type": {
+                "text": "\"flat\" | \"outlined\" | \"raised\" | \"sunken\""
+              },
+              "default": "\"flat\"",
+              "description": "Visual variant.",
+              "fieldName": "variant"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"neutral\" | \"accent\" | \"success\" | \"warning\" | \"error\" | \"info\""
+              },
+              "default": "\"neutral\"",
+              "description": "Semantic color tone.",
+              "fieldName": "tone"
+            },
+            {
+              "name": "radius",
+              "type": {
+                "text": "\"none\" | \"sm\" | \"md\" | \"lg\" | \"pill\""
+              },
+              "default": "\"md\"",
+              "description": "Border radius preset.",
+              "fieldName": "radius"
+            },
+            {
+              "name": "interactive",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether the surface is clickable/hoverable.",
+              "fieldName": "interactive"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-surface",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiSurface",
+          "declaration": {
+            "name": "AiSurface",
+            "module": "src/frontend/components/ai/visual/surface.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-surface",
+          "declaration": {
+            "name": "AiSurface",
+            "module": "src/frontend/components/ai/visual/surface.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/frontend/components/ai/visual/text.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Typography primitive.",
+          "name": "AiText",
+          "cssProperties": [
+            {
+              "description": "Text color.",
+              "name": "--text-color"
+            },
+            {
+              "description": "Font family.",
+              "name": "--font-family"
+            },
+            {
+              "description": "Monospace font family.",
+              "name": "--font-family-mono"
+            },
+            {
+              "description": "Font size.",
+              "name": "--font-size"
+            },
+            {
+              "description": "Font weight.",
+              "name": "--font-weight"
+            },
+            {
+              "description": "Line height.",
+              "name": "--line-height"
+            },
+            {
+              "description": "Letter spacing.",
+              "name": "--letter-spacing"
+            }
+          ],
+          "slots": [
+            {
+              "description": "Text/inline content.",
+              "name": ""
+            }
+          ],
+          "members": [
+            {
+              "kind": "field",
+              "name": "size",
+              "type": {
+                "text": "\"caption\" | \"meta\" | \"ui\" | \"body\" | \"title\" | \"display\""
+              },
+              "default": "\"body\"",
+              "description": "Size preset.",
+              "attribute": "size",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "weight",
+              "type": {
+                "text": "\"normal\" | \"medium\" | \"semibold\" | \"bold\""
+              },
+              "default": "\"normal\"",
+              "description": "Font weight preset.",
+              "attribute": "weight",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "tone",
+              "type": {
+                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+              },
+              "default": "\"default\"",
+              "description": "Semantic color tone.",
+              "attribute": "tone",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "mono",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to use monospace font.",
+              "attribute": "mono",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "truncate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to truncate with ellipsis.",
+              "attribute": "truncate",
+              "reflects": true
+            },
+            {
+              "kind": "field",
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to use inline display.",
+              "attribute": "inline",
+              "reflects": true
+            },
+            {
+              "kind": "method",
+              "name": "getToneColor",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "string"
+                }
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "size",
+              "type": {
+                "text": "\"caption\" | \"meta\" | \"ui\" | \"body\" | \"title\" | \"display\""
+              },
+              "default": "\"body\"",
+              "description": "Size preset.",
+              "fieldName": "size"
+            },
+            {
+              "name": "weight",
+              "type": {
+                "text": "\"normal\" | \"medium\" | \"semibold\" | \"bold\""
+              },
+              "default": "\"normal\"",
+              "description": "Font weight preset.",
+              "fieldName": "weight"
+            },
+            {
+              "name": "tone",
+              "type": {
+                "text": "\"default\" | \"muted\" | \"accent\" | \"success\" | \"warning\" | \"error\""
+              },
+              "default": "\"default\"",
+              "description": "Semantic color tone.",
+              "fieldName": "tone"
+            },
+            {
+              "name": "mono",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to use monospace font.",
+              "fieldName": "mono"
+            },
+            {
+              "name": "truncate",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to truncate with ellipsis.",
+              "fieldName": "truncate"
+            },
+            {
+              "name": "inline",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Whether to use inline display.",
+              "fieldName": "inline"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ai-text",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "AiText",
+          "declaration": {
+            "name": "AiText",
+            "module": "src/frontend/components/ai/visual/text.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ai-text",
+          "declaration": {
+            "name": "AiText",
+            "module": "src/frontend/components/ai/visual/text.ts"
+          }
+        }
+      ]
+    }
+  ]
+}

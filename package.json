@@ -10,21 +10,27 @@
     "web-components"
   ],
   "license": "MIT",
-  "files": [
-    "dist"
-  ],
   "type": "module",
   "sideEffects": true,
-  "main": "./dist/ai-ui.js",
-  "module": "./dist/ai-ui.js",
-  "types": "./dist/types/bundle.d.ts",
   "exports": {
     ".": {
-      "types": "./dist/types/bundle.d.ts",
-      "default": "./dist/ai-ui.js"
+      "types": "./src/index.ts",
+      "default": "./src/index.ts"
     }
+  },
+  "scripts": {
+    "build": "bun build src/index.ts --outfile=dist/ai-ui.js --target=browser --external=lit --external='lit/*' && tsc -p tsconfig.json",
+    "analyze": "cem analyze",
+    "test": "bun test src/"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@types/bun": "latest",
+    "typescript": "^5"
   },
   "peerDependencies": {
     "lit": "^3.0.0"
-  }
+  },
+  "customElements": "src/custom-elements.json"
 }

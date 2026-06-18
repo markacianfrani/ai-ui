@@ -10,15 +10,11 @@
     "declaration": true,
     "emitDeclarationOnly": true,
     "outDir": "dist/types",
-    "rootDir": "../../src/frontend/components/ai",
+    "rootDir": "src",
     "strict": true,
     "skipLibCheck": true,
     "verbatimModuleSyntax": false
   },
-  "include": ["../../src/frontend/components/ai/**/*.ts"],
-  "exclude": [
-    "../../src/frontend/components/ai/**/*.test.ts",
-    "../../src/frontend/components/ai/**/*.stories.ts",
-    "../../src/frontend/components/ai/stories/**"
-  ]
+  "include": ["src/**/*.ts"],
+  "exclude": ["src/**/*.test.ts", "src/**/*.stories.ts", "src/stories/**"]
 }
