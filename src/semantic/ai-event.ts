@@ -184,7 +184,7 @@ export class AiEvent extends LitElement {
           </span>
           <span class="chevron" part="marker" aria-hidden="true">
             <svg viewBox="0 0 10 10" focusable="false">
-              <path d="M3.25 2.25 6.25 5 3.25 7.75"></path>
+              <path d="M3 2.2 6.8 5 3 7.8"></path>
             </svg>
           </span>
         </summary>
@@ -325,18 +325,19 @@ export class AiEvent extends LitElement {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 12px;
-      height: 16px;
+      width: 8px;
+      height: 8px;
       justify-self: end;
+      flex-shrink: 0;
       color: color-mix(in oklch, var(--text-muted, currentColor) 88%, transparent);
     }
 
     .chevron svg {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       stroke: currentColor;
       fill: none;
-      stroke-width: 1.8;
+      stroke-width: 1.4;
       stroke-linecap: round;
       stroke-linejoin: round;
       transition: transform 0.16s ease;
