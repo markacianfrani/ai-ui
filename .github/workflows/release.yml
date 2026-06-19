@@ -39,6 +39,11 @@ jobs:
         with:
           registry-url: "https://registry.npmjs.org"
           scope: "@cianfrani"
+          # OIDC trusted publishing requires npm 11.5+; Node 24 bundles a compatible npm.
+          node-version: "24"
+
+      - name: Upgrade npm (OIDC trusted-publish compatibility)
+        run: npm install -g npm@latest
 
       - name: Install
         run: bun install --frozen-lockfile
