@@ -1,6 +1,7 @@
 import { LitElement, css, html } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import "./ai-tool-call";
+import type { AiShowHideDetail } from "./ai-event";
 
 function summarizeThinking(content: string): string {
   const normalized = content.replace(/\s+/g, " ").trim();
@@ -125,8 +126,8 @@ export class AiThinking extends LitElement {
     }
     this.open = true;
     this.dispatchEvent(
-      new CustomEvent("ai-show", {
-        detail: { redacted: this.redacted },
+      new CustomEvent<AiShowHideDetail>("ai-show", {
+        detail: { source: "thinking", redacted: this.redacted },
         bubbles: true,
         composed: true,
       }),
@@ -139,8 +140,8 @@ export class AiThinking extends LitElement {
     }
     this.open = false;
     this.dispatchEvent(
-      new CustomEvent("ai-hide", {
-        detail: { redacted: this.redacted },
+      new CustomEvent<AiShowHideDetail>("ai-hide", {
+        detail: { source: "thinking", redacted: this.redacted },
         bubbles: true,
         composed: true,
       }),

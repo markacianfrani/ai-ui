@@ -20,6 +20,26 @@ const SEVERITY_COLORS: Record<string, string> = {
 };
 
 /**
+ * Payload of the `ai-show` / `ai-hide` events.
+ *
+ * These events share a name but are emitted by three different components with
+ * distinct payloads. The `source` field discriminates which component fired, so
+ * listeners can narrow safely:
+ *
+ * ```ts
+ * el.addEventListener("ai-show", (e) => {
+ *   if (e.detail.source === "tool-call") {
+ *     console.log(e.detail.id, e.detail.name); // typed
+ *   }
+ * });
+ * ```
+ */
+export type AiShowHideDetail =
+  | { source: "event"; kind: string }
+  | { source: "thinking"; redacted: boolean }
+  | { source: "tool-call"; open: boolean; id: string; name: string };
+
+/**
  * Non-message, non-operation transcript event.
  *
  * Represents status changes, model switches, checkpoints, notes,
@@ -113,8 +133,8 @@ export class AiEvent extends LitElement {
     if (this._prevOpen !== this.open) {
       this._prevOpen = this.open;
       this.dispatchEvent(
-        new CustomEvent(this.open ? "ai-show" : "ai-hide", {
-          detail: { kind: this.kind },
+        new CustomEvent<AiShowHideDetail>(this.open ? "ai-show" : "ai-hide", {
+          detail: { source: "event", kind: this.kind },
           bubbles: true,
           composed: true,
         }),
@@ -426,7 +446,7 @@ declare global {
   }
 
   interface HTMLElementEventMap {
-    "ai-show": CustomEvent<{ kind: string }>;
-    "ai-hide": CustomEvent<{ kind: string }>;
+    "ai-show": CustomEvent<AiShowHideDetail>;
+    "ai-hide": CustomEvent<AiShowHideDetail>;
   }
 }

@@ -15,7 +15,7 @@ export const Variants: Story = {
   render: () => html`
     <ai-conversation>
       <ai-message role="assistant">
-        <ai-tool-call id="read" name="read" headline="src/frontend/chat-view.ts" status="success" open>
+        <ai-tool-call id="read" name="read" headline="chat-view.ts" status="success" open>
           <ai-tool-result
             for="read"
             name="read"
@@ -37,7 +37,7 @@ export const Variants: Story = {
           id="edit"
           name="edit"
           headline="ai-message.ts"
-          subline="src/frontend/components/ai/semantic/ai-message.ts"
+          subline="src/components/message.ts"
           status="error"
         >
           <ai-tool-result

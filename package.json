@@ -9,22 +9,53 @@
     "transcript",
     "web-components"
   ],
+  "homepage": "https://github.com/markacianfrani/ai-ui#readme",
+  "bugs": {
+    "url": "https://github.com/markacianfrani/ai-ui/issues"
+  },
   "license": "MIT",
+  "author": "Mark Cianfrani",
+  "repository": {
+    "type": "git",
+    "url": "github:markacianfrani/ai-ui"
+  },
+  "files": [
+    "dist",
+    "src",
+    "!src/stories",
+    "!src/**/*.stories.ts",
+    "!src/**/*.test.ts"
+  ],
   "type": "module",
   "sideEffects": true,
+  "main": "./dist/ai-ui.js",
+  "types": "./dist/types/index.d.ts",
   "exports": {
     ".": {
+      "types": "./dist/types/index.d.ts",
+      "default": "./dist/ai-ui.js"
+    },
+    "./source": {
       "types": "./src/index.ts",
       "default": "./src/index.ts"
-    }
+    },
+    "./custom-elements.json": "./src/custom-elements.json",
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "bun build src/index.ts --outfile=dist/ai-ui.js --target=browser --external=lit --external='lit/*' && tsc -p tsconfig.json",
     "analyze": "cem analyze",
-    "test": "bun test src/"
+    "test": "bun test src/",
+    "changeset": "changeset",
+    "version": "changeset version",
+    "release": "changeset publish"
   },
   "dependencies": {},
   "devDependencies": {
+    "@changesets/cli": "^2.27.0",
     "@custom-elements-manifest/analyzer": "^0.11.0",
     "@types/bun": "latest",
     "typescript": "^5"

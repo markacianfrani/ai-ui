@@ -185,7 +185,7 @@ export const EventStatesInContext: Story = {
           <ai-tool-call
             id="state-read"
             name="read"
-            headline="src/frontend/components/ai/semantic/ai-event.ts"
+            headline="src/components/event.ts"
             status="success"
           ></ai-tool-call>
         </ai-message>

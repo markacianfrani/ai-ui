@@ -2,6 +2,7 @@ import { LitElement, css, html, nothing, svg } from "lit";
 import { customElement, property } from "lit/decorators.js";
 import { getToolTone } from "../lib/tool-tone";
 import { HasSlotController } from "../lib/has-slot-controller";
+import type { AiShowHideDetail } from "./ai-event";
 
 export type ToolCallKind =
   | "tool"
@@ -370,8 +371,8 @@ export class AiToolCall extends LitElement {
 
   private emitToggle(isOpen: boolean) {
     this.dispatchEvent(
-      new CustomEvent(isOpen ? "ai-show" : "ai-hide", {
-        detail: { open: isOpen, id: this.id, name: this.name },
+      new CustomEvent<AiShowHideDetail>(isOpen ? "ai-show" : "ai-hide", {
+        detail: { source: "tool-call", open: isOpen, id: this.id, name: this.name },
         bubbles: true,
         composed: true,
       }),
