@@ -34,8 +34,8 @@ jobs:
       - name: Setup npm (OIDC trusted publishing)
         # Configures ~/.npmrc with registry + scope so `changeset publish`
         # authenticates via the OIDC-minted token, not a stored secret.
-        # v4 — actions/setup-node@cdca7365b2dadb8aad8317dae69b06cfd6ccb3e3
-        uses: actions/setup-node@cdca7365b2dadb8aad8317dae69b06cfd6ccb3e3
+        # v4.4.0 — actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
+        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020
         with:
           registry-url: "https://registry.npmjs.org"
           scope: "@cianfrani"
