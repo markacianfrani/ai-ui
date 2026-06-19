@@ -17,7 +17,7 @@
   "author": "Mark Cianfrani",
   "repository": {
     "type": "git",
-    "url": "github:markacianfrani/ai-ui"
+    "url": "git+https://github.com/markacianfrani/ai-ui.git"
   },
   "files": [
     "dist",
@@ -43,7 +43,8 @@
     "./package.json": "./package.json"
   },
   "publishConfig": {
-    "access": "public"
+    "access": "public",
+    "provenance": true
   },
   "scripts": {
     "build": "bun build src/index.ts --outfile=dist/ai-ui.js --target=browser --external=lit --external='lit/*' && tsc -p tsconfig.json",
