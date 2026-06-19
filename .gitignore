@@ -3,6 +3,7 @@ node_modules/
 
 # build output
 dist/
+storybook-static/
 
 # npm pack artifacts
 *.tgz

@@ -52,13 +52,18 @@
     "test": "bun test src/",
     "changeset": "changeset",
     "version": "changeset version",
-    "release": "changeset publish"
+    "release": "changeset publish",
+    "storybook": "storybook dev -p 6006",
+    "build-storybook": "storybook build"
   },
   "dependencies": {},
   "devDependencies": {
     "@changesets/cli": "^2.27.0",
     "@custom-elements-manifest/analyzer": "^0.11.0",
+    "@storybook/addon-docs": "^10.4.2",
+    "@storybook/web-components-vite": "^10.4.2",
     "@types/bun": "latest",
+    "storybook": "^10.4.2",
     "typescript": "^5"
   },
   "peerDependencies": {
