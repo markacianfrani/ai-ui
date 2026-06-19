@@ -5,6 +5,6 @@
     "@cianfrani/ai-ui": "0.1.0-alpha.0"
   },
   "changesets": [
-    "initial-release"
+    "setup-release-pipeline"
   ]
 }
