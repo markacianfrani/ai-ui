@@ -4,7 +4,5 @@
   "initialVersions": {
     "@cianfrani/ai-ui": "0.1.0-alpha.0"
   },
-  "changesets": [
-    "setup-release-pipeline"
-  ]
+  "changesets": []
 }
