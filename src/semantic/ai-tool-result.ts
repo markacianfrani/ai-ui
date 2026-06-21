@@ -27,6 +27,7 @@ function extractFirstStructuredField(
       return parts;
     }
   }
+  return undefined;
 }
 
 function extractStructuredText(value: unknown): string[] {
