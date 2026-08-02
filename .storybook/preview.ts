@@ -11,8 +11,11 @@ import "../src/index";
  *
  * This enhancer indexes every component's pure string-literal-union properties
  * from the manifest, then — for the current story's component — rewrites those
- * args to `{ name: "enum", value }`. Explicit argTypes win Storybook's merge,
- * and the built-in inferControls then renders them as radio/select controls.
+ * args to `{ name: "enum", value }`. It must run as a second-pass enhancer so
+ * it executes *after* the framework's manifest-extracting `enhanceArgTypes`
+ * (which otherwise leaves the raw union string as the arg type, falling
+ * through to a JSON text control). With an enum type in place, the Controls
+ * panel renders radio/select widgets.
  */
 const STRING_UNION = /^\s*\|?\s*"[^"]*"(\s*\|\s*"[^"]*")*\s*$/;
 
@@ -49,6 +52,7 @@ const inferEnumUnions: ArgTypesEnhancer = (context) => {
   }
   return argTypes;
 };
+inferEnumUnions.secondPass = true;
 
 setCustomElementsManifest(customElements);
 
