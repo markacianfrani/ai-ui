@@ -1,0 +1,64 @@
+name: Storybook
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "src/**"
+      - ".storybook/**"
+      - "package.json"
+      - "bun.lock"
+      - ".github/workflows/storybook.yml"
+  workflow_dispatch:
+
+concurrency:
+  group: storybook-pages
+  cancel-in-progress: true
+
+# Deploying to GitHub Pages requires these permissions. The repo's Pages
+# settings (Settings → Pages → "Build and deployment") must be set to
+# "GitHub Actions" (not "Deploy from a branch") for this to publish.
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  deploy:
+    name: Build & Publish Storybook
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        # v4 — actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+
+      - name: Setup Bun
+        # v2 — oven-sh/setup-bun@v2
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install
+        run: bun install --frozen-lockfile
+
+      - name: Build Storybook
+        # Project site → https://markacianfrani.github.io/ai-ui/
+        env:
+          STORYBOOK_BASE_PATH: /ai-ui/
+        run: bun run build-storybook
+
+      - name: Setup Pages
+        # v5 — actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+        uses: actions/configure-pages@983d7736d9b0ae728b81ab479565c72886d7745b
+
+      - name: Upload artifact
+        # v4 — actions/upload-pages-artifact@56afc609e7430d0216ee3e7629648e1ab67c6f9d
+        uses: actions/upload-pages-artifact@56afc609e7430d0216ee3e7629648e1ab67c6f9d
+        with:
+          path: ./storybook-static
+
+      - name: Deploy to GitHub Pages
+        # v4 — actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
+        id: deployment
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e
