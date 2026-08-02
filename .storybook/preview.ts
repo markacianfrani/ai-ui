@@ -4,30 +4,48 @@ import customElements from "../src/custom-elements.json";
 import "../src/index";
 
 /*
- * The @storybook/web-components argType extractor copies each property's raw
- * TypeScript type text (e.g. `"idle" | "running" | "success"`) verbatim into
- * `argType.type.name`. Storybook's built-in control inference only renders a
- * select when `type.name === "enum"`, so string-literal unions otherwise fall
- * through to a plain text/JSON control — every enum prop shows up as a text box
- * instead of a dropdown.
+ * Storybook's web-components Controls panel infers each arg's type from its
+ * runtime value (e.g. `"success"` → `string` → a plain text box). The manifest's
+ * string-literal unions (`"idle" | "running" | …`) never reach the Controls
+ * panel, so enum props render as text inputs instead of dropdowns.
  *
- * This first-pass enhancer detects pure string-literal unions in the manifest
- * and rewrites them to `{ name: "enum", value: [...] }`, after which the
- * built-in inferControls (second pass) renders them as radio/select controls.
+ * This enhancer indexes every component's pure string-literal-union properties
+ * from the manifest, then — for the current story's component — rewrites those
+ * args to `{ name: "enum", value }`. Explicit argTypes win Storybook's merge,
+ * and the built-in inferControls then renders them as radio/select controls.
  */
+const STRING_UNION = /^\s*\|?\s*"[^"]*"(\s*\|\s*"[^"]*")*\s*$/;
+
+const enumPropsByTag = new Map<string, Record<string, string[]>>();
+for (const module of customElements.modules ?? []) {
+  for (const decl of module.declarations ?? []) {
+    const tag = decl.tagName;
+    if (!tag) continue;
+    const enums: Record<string, string[]> = {};
+    for (const member of decl.members ?? []) {
+      const text = member?.type?.text;
+      if (typeof text !== "string" || !text.includes("|") || !STRING_UNION.test(text)) continue;
+      const values = [...text.matchAll(/"([^"]*)"/g)].map((m) => m[1]);
+      if (values.length >= 2) enums[member.name] = values;
+    }
+    if (Object.keys(enums).length) enumPropsByTag.set(tag, enums);
+  }
+}
+
 const inferEnumUnions: ArgTypesEnhancer = (context) => {
-  const argTypes = context.argTypes;
-  if (!argTypes) return argTypes;
-  for (const key of Object.keys(argTypes)) {
-    const argType = argTypes[key];
-    const text = argType?.type?.name;
-    if (typeof text !== "string" || !text.includes("|")) continue;
-    // Only convert a *pure* union of double-quoted string literals.
-    if (!/^\s*\|?\s*"[^"]*"(\s*\|\s*"[^"]*")*\s*$/.test(text)) continue;
-    const values = [...text.matchAll(/"([^"]*)"/g)].map((m) => m[1]);
-    if (values.length < 2) continue;
-    argType.type = { name: "enum", value: values };
-    argType.options = values;
+  const tag = typeof context.component === "string" ? context.component : undefined;
+  const enums = tag ? enumPropsByTag.get(tag) : undefined;
+  if (!enums) return context.argTypes;
+  const argTypes = { ...context.argTypes };
+  for (const [key, values] of Object.entries(enums)) {
+    // Only override args the story actually exposes.
+    if (!(key in (context.initialArgs ?? {}))) continue;
+    argTypes[key] = {
+      ...(argTypes[key] ?? {}),
+      name: key,
+      type: { name: "enum", value: values },
+      options: values,
+    };
   }
   return argTypes;
 };
