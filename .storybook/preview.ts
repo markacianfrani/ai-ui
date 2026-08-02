@@ -1,7 +1,36 @@
-import type { Preview } from "@storybook/web-components-vite";
+import type { ArgTypesEnhancer, Preview } from "@storybook/web-components-vite";
 import { setCustomElementsManifest } from "@storybook/web-components";
 import customElements from "../src/custom-elements.json";
 import "../src/index";
+
+/*
+ * The @storybook/web-components argType extractor copies each property's raw
+ * TypeScript type text (e.g. `"idle" | "running" | "success"`) verbatim into
+ * `argType.type.name`. Storybook's built-in control inference only renders a
+ * select when `type.name === "enum"`, so string-literal unions otherwise fall
+ * through to a plain text/JSON control — every enum prop shows up as a text box
+ * instead of a dropdown.
+ *
+ * This first-pass enhancer detects pure string-literal unions in the manifest
+ * and rewrites them to `{ name: "enum", value: [...] }`, after which the
+ * built-in inferControls (second pass) renders them as radio/select controls.
+ */
+const inferEnumUnions: ArgTypesEnhancer = (context) => {
+  const argTypes = context.argTypes;
+  if (!argTypes) return argTypes;
+  for (const key of Object.keys(argTypes)) {
+    const argType = argTypes[key];
+    const text = argType?.type?.name;
+    if (typeof text !== "string" || !text.includes("|")) continue;
+    // Only convert a *pure* union of double-quoted string literals.
+    if (!/^\s*\|?\s*"[^"]*"(\s*\|\s*"[^"]*")*\s*$/.test(text)) continue;
+    const values = [...text.matchAll(/"([^"]*)"/g)].map((m) => m[1]);
+    if (values.length < 2) continue;
+    argType.type = { name: "enum", value: values };
+    argType.options = values;
+  }
+  return argTypes;
+};
 
 setCustomElementsManifest(customElements);
 
@@ -100,6 +129,7 @@ const preview: Preview = {
       return story();
     },
   ],
+  argTypesEnhancers: [inferEnumUnions],
 };
 
 export default preview;
