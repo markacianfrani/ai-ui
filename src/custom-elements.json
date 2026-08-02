@@ -4,146 +4,6 @@
   "modules": [
     {
       "kind": "javascript-module",
-      "path": "src/lib/has-slot-controller.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Reactive controller that tracks whether named/default slots have content.\n\nUsage:\n  private readonly hasSlot = new HasSlotController(this, \"[default]\");\n  // then in render():\n  this.hasSlot.test(\"[default]\") // → boolean",
-          "name": "HasSlotController",
-          "members": [
-            {
-              "kind": "field",
-              "name": "host",
-              "type": {
-                "text": "ReactiveControllerHost & Element"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "slotNames",
-              "type": {
-                "text": "string[]"
-              },
-              "default": "slotNames"
-            },
-            {
-              "kind": "method",
-              "name": "hasDefaultSlot",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "hasNamedSlot",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "name",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "test",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "slotName",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "description": "Test whether a slot has content. Use `\"[default]\"` for the default slot."
-            },
-            {
-              "kind": "method",
-              "name": "hostConnected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "hostDisconnected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "field",
-              "name": "handleSlotChange",
-              "privacy": "private"
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HasSlotController",
-          "declaration": {
-            "name": "HasSlotController",
-            "module": "src/lib/has-slot-controller.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/lib/tool-tone.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "getToolTone",
-          "return": {
-            "type": {
-              "text": "ToolTone"
-            }
-          },
-          "parameters": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "getToolTone",
-          "declaration": {
-            "name": "getToolTone",
-            "module": "src/lib/tool-tone.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
       "path": "src/semantic/ai-conversation.ts",
       "declarations": [
         {
@@ -211,15 +71,6 @@
               "description": "Accessible label for the conversation region.",
               "attribute": "label",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "normalizedDensity",
-              "type": {
-                "text": "\"comfortable\" | \"compact\""
-              },
-              "privacy": "private",
-              "readonly": true
             }
           ],
           "attributes": [
@@ -411,14 +262,6 @@
               "reflects": true
             },
             {
-              "kind": "field",
-              "name": "_details",
-              "type": {
-                "text": "HTMLDetailsElement | null"
-              },
-              "privacy": "private"
-            },
-            {
               "kind": "method",
               "name": "show",
               "return": {
@@ -456,43 +299,6 @@
                 }
               ],
               "description": "Toggle open state. Optionally force open/closed."
-            },
-            {
-              "kind": "field",
-              "name": "_prevOpen",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "default": "false"
-            },
-            {
-              "kind": "method",
-              "name": "_onToggle",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "field",
-              "name": "_severityColor",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "_kindLabel",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
             }
           ],
           "events": [
@@ -715,24 +521,6 @@
               "description": "Display label for role chrome.",
               "attribute": "label",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "normalizedRole",
-              "type": {
-                "text": "AiMessageRole"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "actorLabel",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
             }
           ],
           "attributes": [
@@ -935,16 +723,6 @@
                   }
                 }
               ]
-            },
-            {
-              "kind": "method",
-              "name": "handleShow",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "handleHide",
-              "privacy": "private"
             }
           ],
           "events": [
@@ -1189,82 +967,6 @@
               "reflects": true
             },
             {
-              "kind": "field",
-              "name": "hasSlot",
-              "privacy": "private",
-              "readonly": true,
-              "default": "new HasSlotController(this, \"[default]\", \"input\", \"summary\")"
-            },
-            {
-              "kind": "field",
-              "name": "tone",
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "badgeText",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "headlineText",
-              "type": {
-                "text": "string"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "hasBodyContent",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "hasInputContent",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "hasSummaryContent",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "isExpandable",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "hasVisibleHeaderContent",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
               "kind": "method",
               "name": "show",
               "return": {
@@ -1299,42 +1001,6 @@
                   }
                 }
               ]
-            },
-            {
-              "kind": "method",
-              "name": "emitToggle",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "isOpen",
-                  "type": {
-                    "text": "boolean"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "handleToggle",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "e",
-                  "type": {
-                    "text": "Event"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "renderIcon",
-              "privacy": "private"
-            },
-            {
-              "kind": "method",
-              "name": "renderHeaderContent",
-              "privacy": "private"
             }
           ],
           "events": [
@@ -1594,31 +1260,6 @@
               "description": "Whether the rendered output was truncated upstream.",
               "attribute": "truncated",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "hasSlot",
-              "privacy": "private",
-              "readonly": true,
-              "default": "new HasSlotController(this, \"[default]\", \"meta\")"
-            },
-            {
-              "kind": "field",
-              "name": "hasDefaultContent",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
-            },
-            {
-              "kind": "field",
-              "name": "hasMetaContent",
-              "type": {
-                "text": "boolean"
-              },
-              "privacy": "private",
-              "readonly": true
             }
           ],
           "attributes": [
@@ -1778,6 +1419,113 @@
     },
     {
       "kind": "javascript-module",
+      "path": "src/lib/has-slot-controller.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Reactive controller that tracks whether named/default slots have content.\n\nUsage:\n  private readonly hasSlot = new HasSlotController(this, \"[default]\");\n  // then in render():\n  this.hasSlot.test(\"[default]\") // → boolean",
+          "name": "HasSlotController",
+          "members": [
+            {
+              "kind": "field",
+              "name": "host",
+              "type": {
+                "text": "ReactiveControllerHost & Element"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "slotNames",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "slotNames"
+            },
+            {
+              "kind": "method",
+              "name": "test",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "slotName",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Test whether a slot has content. Use `\"[default]\"` for the default slot."
+            },
+            {
+              "kind": "method",
+              "name": "hostConnected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hostDisconnected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HasSlotController",
+          "declaration": {
+            "name": "HasSlotController",
+            "module": "src/lib/has-slot-controller.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/lib/tool-tone.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "getToolTone",
+          "return": {
+            "type": {
+              "text": "ToolTone"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "getToolTone",
+          "declaration": {
+            "name": "getToolTone",
+            "module": "src/lib/tool-tone.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/visual/avatar.ts",
       "declarations": [
         {
@@ -1864,26 +1612,6 @@
               "description": "Semantic color tone.",
               "attribute": "tone",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "getInitials",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "getToneColors",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "{ bg: string; text: string; border: string }"
-                }
-              }
             }
           ],
           "attributes": [
@@ -2032,16 +1760,6 @@
               "description": "Whether to show a leading dot indicator.",
               "attribute": "dot",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "getToneColors",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "{ bg: string; text: string; border: string }"
-                }
-              }
             }
           ],
           "attributes": [
@@ -2253,16 +1971,6 @@
               "description": "Semantic color tone.",
               "attribute": "tone",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "getToneColor",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
             }
           ],
           "attributes": [
@@ -2467,506 +2175,6 @@
               "description": "Whether the content is trusted (affects link behavior).",
               "attribute": "trusted",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "parseInlines",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "InlinePart[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "text",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "renderInline",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "text",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseTableRow",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "line",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseTableAligns",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "(\"left\" | \"center\" | \"right\")[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "separator",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "isTableSeparator",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "line",
-                  "type": {
-                    "text": "string"
-                  }
-                },
-                {
-                  "name": "columnCount",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "indentLevel",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "number"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "line",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseBlocks",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "Block[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "source",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseCodeBlock",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseHeadingBlock",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "Block | undefined"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseBlockquoteBlock",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseListBlock",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "skipBlankLines",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "number"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "from",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseNestedChildren",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "Block[]"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "baseIndent",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "collectList",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "type",
-                  "type": {
-                    "text": "\"ul\" | \"ol\""
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "countNestedLines",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "number"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "baseIndent",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseTableBlock",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "parseParagraphBlock",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "startIndex",
-                  "type": {
-                    "text": "number"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "startsStructuredBlock",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "index",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "startsTable",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "isTableStart",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "lines",
-                  "type": {
-                    "text": "string[]"
-                  }
-                },
-                {
-                  "name": "index",
-                  "type": {
-                    "text": "number"
-                  }
-                },
-                {
-                  "name": "trimmed",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "renderBlocks",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "unknown"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "blocks",
-                  "type": {
-                    "text": "Block[]"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "renderBlock",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "unknown"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "block",
-                  "type": {
-                    "text": "Block"
-                  }
-                }
-              ]
-            },
-            {
-              "kind": "method",
-              "name": "renderMarkdown",
-              "privacy": "private",
-              "parameters": [
-                {
-                  "name": "source",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ]
             }
           ],
           "attributes": [
@@ -3285,26 +2493,6 @@
               "description": "Display variant — dot or icon.",
               "attribute": "variant",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "getStateColor",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "getFallbackIconPath",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
             }
           ],
           "attributes": [
@@ -3455,16 +2643,6 @@
               "description": "Whether the surface is clickable/hoverable.",
               "attribute": "interactive",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "getToneColors",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "{ bg: string; text: string; border: string }"
-                }
-              }
             }
           ],
           "attributes": [
@@ -3642,16 +2820,6 @@
               "description": "Whether to use inline display.",
               "attribute": "inline",
               "reflects": true
-            },
-            {
-              "kind": "method",
-              "name": "getToneColor",
-              "privacy": "private",
-              "return": {
-                "type": {
-                  "text": "string"
-                }
-              }
             }
           ],
           "attributes": [
