@@ -4,6 +4,113 @@
   "modules": [
     {
       "kind": "javascript-module",
+      "path": "src/lib/has-slot-controller.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "Reactive controller that tracks whether named/default slots have content.\n\nUsage:\n  private readonly hasSlot = new HasSlotController(this, \"[default]\");\n  // then in render():\n  this.hasSlot.test(\"[default]\") // → boolean",
+          "name": "HasSlotController",
+          "members": [
+            {
+              "kind": "field",
+              "name": "host",
+              "type": {
+                "text": "ReactiveControllerHost & Element"
+              }
+            },
+            {
+              "kind": "field",
+              "name": "slotNames",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "slotNames"
+            },
+            {
+              "kind": "method",
+              "name": "test",
+              "return": {
+                "type": {
+                  "text": "boolean"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "slotName",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ],
+              "description": "Test whether a slot has content. Use `\"[default]\"` for the default slot."
+            },
+            {
+              "kind": "method",
+              "name": "hostConnected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            },
+            {
+              "kind": "method",
+              "name": "hostDisconnected",
+              "return": {
+                "type": {
+                  "text": "void"
+                }
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "HasSlotController",
+          "declaration": {
+            "name": "HasSlotController",
+            "module": "src/lib/has-slot-controller.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/lib/tool-tone.ts",
+      "declarations": [
+        {
+          "kind": "function",
+          "name": "getToolTone",
+          "return": {
+            "type": {
+              "text": "ToolTone"
+            }
+          },
+          "parameters": [
+            {
+              "name": "name",
+              "type": {
+                "text": "string"
+              }
+            }
+          ]
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "getToolTone",
+          "declaration": {
+            "name": "getToolTone",
+            "module": "src/lib/tool-tone.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
       "path": "src/semantic/ai-conversation.ts",
       "declarations": [
         {
@@ -678,17 +785,6 @@
               "reflects": true
             },
             {
-              "kind": "field",
-              "name": "headline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Optional summary headline. Defaults to a first-sentence summary of content.",
-              "attribute": "headline",
-              "reflects": true
-            },
-            {
               "kind": "method",
               "name": "show",
               "return": {
@@ -777,15 +873,6 @@
               "default": "false",
               "description": "Whether the disclosure is expanded.",
               "fieldName": "open"
-            },
-            {
-              "name": "headline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Optional summary headline. Defaults to a first-sentence summary of content.",
-              "fieldName": "headline"
             }
           ],
           "superclass": {
@@ -938,16 +1025,6 @@
             },
             {
               "kind": "field",
-              "name": "subline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "attribute": "subline",
-              "reflects": true
-            },
-            {
-              "kind": "field",
               "name": "status",
               "type": {
                 "text": "\"pending\" | \"running\" | \"success\" | \"error\" | \"cancelled\" | \"unknown\""
@@ -1066,14 +1143,6 @@
               },
               "default": "\"\"",
               "fieldName": "headline"
-            },
-            {
-              "name": "subline",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "fieldName": "subline"
             },
             {
               "name": "status",
@@ -1413,113 +1482,6 @@
           "declaration": {
             "name": "*",
             "module": "src/semantic/ai-event"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/lib/has-slot-controller.ts",
-      "declarations": [
-        {
-          "kind": "class",
-          "description": "Reactive controller that tracks whether named/default slots have content.\n\nUsage:\n  private readonly hasSlot = new HasSlotController(this, \"[default]\");\n  // then in render():\n  this.hasSlot.test(\"[default]\") // → boolean",
-          "name": "HasSlotController",
-          "members": [
-            {
-              "kind": "field",
-              "name": "host",
-              "type": {
-                "text": "ReactiveControllerHost & Element"
-              }
-            },
-            {
-              "kind": "field",
-              "name": "slotNames",
-              "type": {
-                "text": "string[]"
-              },
-              "default": "slotNames"
-            },
-            {
-              "kind": "method",
-              "name": "test",
-              "return": {
-                "type": {
-                  "text": "boolean"
-                }
-              },
-              "parameters": [
-                {
-                  "name": "slotName",
-                  "type": {
-                    "text": "string"
-                  }
-                }
-              ],
-              "description": "Test whether a slot has content. Use `\"[default]\"` for the default slot."
-            },
-            {
-              "kind": "method",
-              "name": "hostConnected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            },
-            {
-              "kind": "method",
-              "name": "hostDisconnected",
-              "return": {
-                "type": {
-                  "text": "void"
-                }
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "HasSlotController",
-          "declaration": {
-            "name": "HasSlotController",
-            "module": "src/lib/has-slot-controller.ts"
-          }
-        }
-      ]
-    },
-    {
-      "kind": "javascript-module",
-      "path": "src/lib/tool-tone.ts",
-      "declarations": [
-        {
-          "kind": "function",
-          "name": "getToolTone",
-          "return": {
-            "type": {
-              "text": "ToolTone"
-            }
-          },
-          "parameters": [
-            {
-              "name": "name",
-              "type": {
-                "text": "string"
-              }
-            }
-          ]
-        }
-      ],
-      "exports": [
-        {
-          "kind": "js",
-          "name": "getToolTone",
-          "declaration": {
-            "name": "getToolTone",
-            "module": "src/lib/tool-tone.ts"
           }
         }
       ]

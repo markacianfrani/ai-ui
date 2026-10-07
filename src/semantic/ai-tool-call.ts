@@ -28,6 +28,8 @@ function renderGlyph(tone: ReturnType<typeof getToolTone>) {
       return svg`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 20h9"></path><path d="M4 13.5V20h6.5L19 11.5 12.5 5 4 13.5Z"></path></svg>`;
     case "bash":
       return svg`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 17 6-5-6-5"></path><path d="M12 19h8"></path></svg>`;
+    case "thinking":
+      return svg`<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3 13.8 10.2 21 12l-7.2 1.8L12 21l-1.8-7.2L3 12l7.2-1.8L12 3Z"></path></svg>`;
     default:
       return nothing;
   }
@@ -128,8 +130,13 @@ export class AiToolCall extends LitElement {
       display: grid;
       grid-template-columns: minmax(0, 1fr) auto;
       align-items: center;
-      gap: calc(var(--spacing-xs, 4px) + 2px);
-      padding: 2px 4px;
+      gap: var(--spacing-xs, var(--ai-space-xs, 0.25rem));
+      padding: var(--spacing-xs, var(--ai-space-xs, 0.25rem))
+        var(--spacing-md, var(--ai-space-md, 0.75rem))
+        var(--spacing-xs, var(--ai-space-xs, 0.25rem))
+        var(--spacing-sm, var(--ai-space-sm, 0.5rem));
+      font-size: var(--font-size-meta, 0.8125rem);
+      line-height: var(--line-height-snug, 1.25);
       background: var(
         --ai-tool-call-summary-background,
         var(--summary-background-color, transparent)
@@ -163,7 +170,7 @@ export class AiToolCall extends LitElement {
     .header-content {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: var(--spacing-sm, var(--ai-space-sm, 0.5rem));
       min-width: 0;
     }
 
@@ -171,15 +178,15 @@ export class AiToolCall extends LitElement {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      width: 14px;
-      height: 14px;
+      width: 1em;
+      height: 1em;
       flex-shrink: 0;
       color: color-mix(in oklch, var(--accent) 62%, var(--text-muted, currentColor));
     }
 
     .icon-frame svg {
-      width: 12.5px;
-      height: 12.5px;
+      width: 1em;
+      height: 1em;
       stroke: currentColor;
       fill: none;
       stroke-width: 1.8;
@@ -197,16 +204,13 @@ export class AiToolCall extends LitElement {
 
     .text-block {
       display: grid;
-      gap: 1px;
       min-width: 0;
-      padding-block: 1px;
     }
 
     .headline {
       display: flex;
-      align-items: baseline;
-      gap: 6px;
-      flex-wrap: wrap;
+      align-items: center;
+      gap: var(--spacing-sm, var(--ai-space-sm, 0.5rem));
       min-width: 0;
     }
 
@@ -214,28 +218,16 @@ export class AiToolCall extends LitElement {
       flex-shrink: 0;
       font-size: var(--font-size-caption, 0.75rem);
       font-weight: var(--font-weight-semibold, 600);
-      line-height: var(--line-height-tight, 1.1);
+      line-height: inherit;
       letter-spacing: var(--tracking-label, 0.04em);
       color: color-mix(in oklch, var(--accent) 52%, var(--text-muted, currentColor));
     }
 
     .headline-text {
       min-width: 0;
-      font-size: var(--font-size-meta, 0.8125rem);
-      line-height: var(--line-height-snug, 1.25);
+      font-size: inherit;
+      line-height: inherit;
       color: color-mix(in oklch, var(--text, currentColor) 88%, var(--text-muted, currentColor));
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: normal;
-      display: -webkit-box;
-      -webkit-box-orient: vertical;
-      -webkit-line-clamp: 2;
-    }
-
-    .subline {
-      font-size: var(--font-size-caption, 0.75rem);
-      line-height: var(--line-height-snug, 1.25);
-      color: color-mix(in oklch, var(--text-muted, currentColor) 92%, transparent);
       overflow: hidden;
       text-overflow: ellipsis;
       white-space: nowrap;
@@ -249,15 +241,9 @@ export class AiToolCall extends LitElement {
       color: color-mix(in oklch, var(--text, currentColor) 78%, var(--text-muted, currentColor));
     }
 
-    .row[data-tone="read"] .headline-text {
-      white-space: nowrap;
-      display: block;
-      -webkit-line-clamp: unset;
-    }
-
     .chevron {
-      width: 8px;
-      height: 8px;
+      width: 0.65em;
+      height: 0.65em;
       flex-shrink: 0;
       color: color-mix(in oklch, var(--text-muted, currentColor) 88%, transparent);
       transition: transform 0.16s ease;
@@ -268,7 +254,8 @@ export class AiToolCall extends LitElement {
     }
 
     .body {
-      padding: 1px 4px calc(var(--spacing-xs, 4px) + 1px) 24px;
+      padding: 1px 4px calc(var(--spacing-xs, 4px) + 1px)
+        calc(2 * var(--spacing-sm, var(--ai-space-sm, 0.5rem)) + var(--font-size-meta, 0.8125rem));
     }
 
     .body::before {
@@ -283,7 +270,8 @@ export class AiToolCall extends LitElement {
     }
 
     .input-area {
-      padding: var(--ai-space-xs, 2px) 4px var(--ai-space-xs, 2px) 24px;
+      padding: var(--ai-space-xs, 2px) 4px var(--ai-space-xs, 2px)
+        calc(2 * var(--spacing-sm, var(--ai-space-sm, 0.5rem)) + var(--font-size-meta, 0.8125rem));
       background: var(--ai-tool-call-input-background, var(--input-background-color, transparent));
     }
 
@@ -313,9 +301,6 @@ export class AiToolCall extends LitElement {
 
   @property({ reflect: true })
   headline = "";
-
-  @property({ reflect: true })
-  subline = "";
 
   @property({ reflect: true })
   status: "pending" | "running" | "success" | "error" | "cancelled" | "unknown" = "unknown";
@@ -354,7 +339,7 @@ export class AiToolCall extends LitElement {
   }
 
   private get hasVisibleHeaderContent(): boolean {
-    return Boolean(this.badgeText || this.headlineText || this.subline);
+    return Boolean(this.badgeText || this.headlineText);
   }
 
   show(): void {
@@ -422,7 +407,6 @@ export class AiToolCall extends LitElement {
                 : nothing
             }
           </span>
-          ${this.subline ? html`<span class="subline">${this.subline}</span>` : nothing}
         </span>
       </span>
       ${

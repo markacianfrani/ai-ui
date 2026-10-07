@@ -37,7 +37,6 @@ export const Variants: Story = {
           id="edit"
           name="edit"
           headline="ai-message.ts"
-          subline="src/components/message.ts"
           status="error"
         >
           <ai-tool-result
@@ -57,7 +56,6 @@ export const Playground: Story = {
     id: "playground-1",
     name: "read",
     headline: "src/config.ts",
-    subline: "",
     status: "success",
     open: true,
   },
@@ -68,7 +66,6 @@ export const Playground: Story = {
           id=${args.id ?? ""}
           name=${args.name ?? ""}
           headline=${args.headline ?? ""}
-          subline=${args.subline ?? ""}
           status=${args.status ?? "unknown"}
           ?open=${args.open ?? false}
         >

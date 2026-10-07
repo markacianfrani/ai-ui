@@ -243,7 +243,7 @@ export class AiEvent extends LitElement {
         --ai-event-summary-color,
         color-mix(in oklch, var(--text-muted, currentColor) 82%, var(--text, currentColor))
       );
-      padding: 3px 4px;
+      padding: 3px var(--spacing-md, var(--ai-space-md, 0.75rem)) 3px 4px;
       border-radius: var(--radius-sm, 5px);
       background: transparent;
       user-select: none;
@@ -416,7 +416,7 @@ export class AiEvent extends LitElement {
     @media (max-width: 520px) {
       summary {
         grid-template-columns: auto minmax(16px, 1fr) 12px;
-        padding-right: 4px;
+        padding-right: var(--spacing-md, var(--ai-space-md, 0.75rem));
       }
 
       .summary-meta {

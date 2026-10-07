@@ -1,7 +1,10 @@
-export type ToolTone = "read" | "write" | "edit" | "bash" | "generic";
+export type ToolTone = "read" | "write" | "edit" | "bash" | "thinking" | "generic";
 
 export function getToolTone(name: string): ToolTone {
   const normalized = name.toLowerCase();
+  if (normalized === "thinking...") {
+    return "thinking";
+  }
   if (normalized.includes("read")) {
     return "read";
   }

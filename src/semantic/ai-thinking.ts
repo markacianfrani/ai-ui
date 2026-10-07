@@ -3,19 +3,6 @@ import { customElement, property } from "lit/decorators.js";
 import "./ai-tool-call";
 import type { AiShowHideDetail } from "./ai-event";
 
-function summarizeThinking(content: string): string {
-  const normalized = content.replace(/\s+/g, " ").trim();
-  if (!normalized) {
-    return "Reasoning";
-  }
-
-  const sentence = normalized.match(/.*?[.!?](?:\s|$)/)?.[0]?.trim() ?? normalized;
-  if (sentence.length <= 88) {
-    return sentence;
-  }
-  return `${sentence.slice(0, 85).trimEnd()}…`;
-}
-
 /**
  * Specialized assistant content block for model reasoning.
  *
@@ -47,10 +34,6 @@ export class AiThinking extends LitElement {
   /** Whether the disclosure is expanded. */
   @property({ reflect: true, type: Boolean })
   open = false;
-
-  /** Optional summary headline. Defaults to a first-sentence summary of content. */
-  @property({ reflect: true })
-  headline = "";
 
   static override styles = css`
     *,
@@ -170,8 +153,7 @@ export class AiThinking extends LitElement {
 
     return html`
       <ai-tool-call
-        name="Reasoning"
-        .headline=${this.headline || summarizeThinking(content)}
+        name="thinking..."
         .open=${this.open}
         @ai-show=${this.handleShow}
         @ai-hide=${this.handleHide}

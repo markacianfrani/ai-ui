@@ -52,6 +52,11 @@ export class AiConversation extends LitElement {
       gap: var(--ai-conversation-compact-gap, var(--ai-space-sm, 8px));
     }
 
+    /* Direct events sit outside the assistant rail; match its right inset. */
+    ::slotted(ai-event) {
+      margin-inline-end: calc(var(--spacing-md, var(--ai-space-md, 0.75rem)) + 2px);
+    }
+
     :host([live]) .conversation {
       border-left: 2px solid var(--ai-conversation-live-border-color, transparent);
     }
