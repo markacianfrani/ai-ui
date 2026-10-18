@@ -10,7 +10,7 @@ export type AiMessageStatus = "pending" | "running" | "success" | "error" | "can
  * @slot - Content blocks, usually ai-markdown, ai-thinking, ai-tool-call, ai-tool-result, or ai-event.
  * @slot meta - Timestamp, model, or other metadata. Prefer native <time>.
  * @slot avatar - Optional actor avatar.
- * @slot actor - Optional actor label.
+ * @slot actor - Optional actor label. Slotted content is styled as an overline label.
  *
  * @cssprop --ai-message-background - Message body background. Default: transparent
  * @cssprop --ai-message-color - Message text color. Default: inherit
@@ -22,7 +22,7 @@ export type AiMessageStatus = "pending" | "running" | "success" | "error" | "can
  * @cssprop --ai-message-user-color - User bubble color. Default: var(--text-on-accent)
  * @cssprop --ai-message-user-max-width - User bubble max width. Default: min(90%, 640px)
  * @cssprop --ai-message-assistant-rail-color - Assistant rail color.
- * @cssprop --ai-message-assistant-label-color - Assistant label color. Default: var(--text-muted)
+ * @cssprop --ai-message-assistant-label-color - Slotted actor label color. Default: var(--text-muted)
  * @cssprop --ai-message-meta-color - Meta text color. Default: var(--text-muted)
  */
 @customElement("ai-message")
@@ -42,10 +42,6 @@ export class AiMessage extends LitElement {
   /** ISO-ish timestamp for metadata/association; visual formatting is left to slotted meta. */
   @property({ reflect: true })
   timestamp = "";
-
-  /** Display label for role chrome. */
-  @property({ reflect: true })
-  label = "";
 
   static override styles = css`
     :host {
@@ -138,7 +134,8 @@ export class AiMessage extends LitElement {
       line-height: var(--line-height-tight, 1.1);
     }
 
-    .actor-label {
+    .actor-label,
+    ::slotted([slot="actor"]) {
       color: var(--ai-message-assistant-label-color, var(--text-muted, #888));
       font-size: var(--font-size-caption, 0.75rem);
       font-weight: var(--font-weight-bold, 700);
@@ -194,10 +191,6 @@ export class AiMessage extends LitElement {
     return "system";
   }
 
-  private get actorLabel(): string {
-    return this.label || (this.normalizedRole === "assistant" ? "Assistant" : this.normalizedRole);
-  }
-
   override render() {
     const role = this.normalizedRole;
     return html`
@@ -207,7 +200,7 @@ export class AiMessage extends LitElement {
             ? html`
               <div class="header">
                 <slot name="avatar"></slot>
-                <slot name="actor"><span class="actor-label">${this.actorLabel}</span></slot>
+                <slot name="actor"></slot>
                 <slot name="meta"></slot>
               </div>
             `

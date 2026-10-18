@@ -547,7 +547,7 @@
               "name": "--ai-message-assistant-rail-color"
             },
             {
-              "description": "Assistant label color. Default: var(--text-muted)",
+              "description": "Slotted actor label color. Default: var(--text-muted)",
               "name": "--ai-message-assistant-label-color"
             },
             {
@@ -569,7 +569,7 @@
               "name": "avatar"
             },
             {
-              "description": "Optional actor label.",
+              "description": "Optional actor label. Slotted content is styled as an overline label.",
               "name": "actor"
             }
           ],
@@ -617,17 +617,6 @@
               "description": "ISO-ish timestamp for metadata/association; visual formatting is left to slotted meta.",
               "attribute": "timestamp",
               "reflects": true
-            },
-            {
-              "kind": "field",
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Display label for role chrome.",
-              "attribute": "label",
-              "reflects": true
             }
           ],
           "attributes": [
@@ -666,15 +655,6 @@
               "default": "\"\"",
               "description": "ISO-ish timestamp for metadata/association; visual formatting is left to slotted meta.",
               "fieldName": "timestamp"
-            },
-            {
-              "name": "label",
-              "type": {
-                "text": "string"
-              },
-              "default": "\"\"",
-              "description": "Display label for role chrome.",
-              "fieldName": "label"
             }
           ],
           "superclass": {

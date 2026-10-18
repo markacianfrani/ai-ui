@@ -50,6 +50,20 @@ export const AssistantMessage: Story = {
   `,
 };
 
+export const AssistantMessageWithActor: Story = {
+  args: {
+    role: "assistant",
+    timestamp: "2026-06-03T18:30:04.000Z",
+  },
+  render: (args) => html`
+    <ai-message role=${args.role ?? "assistant"} timestamp=${args.timestamp ?? ""}>
+      <span slot="actor">Assistant</span>
+      <ai-markdown content="The actor label is opt-in via the actor slot."></ai-markdown>
+      <time slot="meta" datetime=${args.timestamp ?? ""}>6:30 PM</time>
+    </ai-message>
+  `,
+};
+
 export const ToolMessage: Story = {
   args: {
     role: "tool",

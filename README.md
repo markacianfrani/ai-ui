@@ -45,7 +45,7 @@ import { html, render } from "lit";
 
 **Semantic transcript primitives**
 - `ai-conversation` — ordered root container; `density`, `live`, accessible label.
-- `ai-message` — message with `role="user|assistant|system|tool"`, `status`, `timestamp`, `label`; `default` / `meta` / `avatar` slots.
+- `ai-message` — message with `role="user|assistant|system|tool"`, `status`, `timestamp`; `default` / `meta` / `avatar` / `actor` slots (no built-in label — supply one via `slot="actor"`).
 - `ai-tool-call` — collapsible tool-call block with input / summary slots and `ai-show` / `ai-hide` events.
 - `ai-tool-result` — tool output block with `for` association and channel / status metadata.
 - `ai-thinking` — reasoning block with compact disclosure.
