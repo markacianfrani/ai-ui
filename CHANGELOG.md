@@ -1,5 +1,11 @@
 # @cianfrani/ai-ui
 
+## 0.1.0-alpha.4
+
+### Minor Changes
+
+- 8fd2499: Remove the built-in "Assistant" label from ai-message. The label attribute is gone; supply a label via the existing `actor` slot instead (slotted content inherits the overline label styling via `--ai-message-assistant-label-color`).
+
 ## 0.1.0-alpha.3
 
 ### Patch Changes
