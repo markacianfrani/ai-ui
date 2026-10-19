@@ -5,6 +5,7 @@
     "@cianfrani/ai-ui": "0.1.0-alpha.0"
   },
   "changesets": [
+    "ai-message-actor-slot-label",
     "align-event-chevron",
     "fix-tool-result-missing-return",
     "setup-release-pipeline"
